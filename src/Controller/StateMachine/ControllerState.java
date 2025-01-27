@@ -8,5 +8,7 @@ public interface ControllerState {
     void logoutUser();
     void updateView();
     //TODO ADD METHOD FOR COMPLETING ORDER
+    void completeOrder();
     //TODO ADD METHOD FOR REMOVING ORDER
+    void removeOrder();
 }

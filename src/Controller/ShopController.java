@@ -32,9 +32,6 @@ public class ShopController {
     }
 
     private void addEventListeners() {
-        view.getAddToCartButton().addActionListener(e -> {
-            state.addItemToCart();
-        });
 
         view.getSearchField().addActionListener(e -> {
             state.performSearch();
@@ -54,6 +51,17 @@ public class ShopController {
             state.updateView();
         });
 
+        view.getAddToOrderButton().addActionListener(e -> {
+            state.addItemToCart();
+        });
+
+        view.getCompleteOrderButton().addActionListener(e -> {
+            state.completeOrder();
+        });
+
+        view.getRemoveOrderButton().addActionListener(e -> {
+            state.removeOrder();
+        });
     }
 
 

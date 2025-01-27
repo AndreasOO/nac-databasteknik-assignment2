@@ -48,4 +48,14 @@ public class LoginState implements ControllerState {
     public void updateView() {
         view.showUserLoginView();
     }
+
+    @Override
+    public void completeOrder() {
+        throw new UnsupportedOperationException("Cannot complete order from logged out state");
+    }
+
+    @Override
+    public void removeOrder() {
+        throw new UnsupportedOperationException("Cannot remove order from logged out state");
+    }
 }

@@ -1,6 +1,6 @@
 package Model;
 
-import View.ShoppingCartObserver;
+import View.OrderObserver;
 import View.FilterResultObserver;
 import View.SearchResultObserver;
 
@@ -12,38 +12,38 @@ import java.util.stream.Collectors;
 
 
 public class ShopModel {
-    private final ShopItemDAO database;
-    private ShopItem shopItemPickedForCart;
+    private final ShopItemDAO shopItemDAO;
+    private ShopItem shopItemPickedForOrder;
     private List<ShopItem> currentSearchResult;
     private List<ShopItem> filteredSearchResult;
 
-    private final List<ShoppingCartObserver> shoppingCartObservers;
+    private final List<OrderObserver> shoppingCartObservers;
     private final List<SearchResultObserver> searchResultObservers;
     private final List<FilterResultObserver> filterResultObservers;
 
 
     public ShopModel() {
-        database = new ShopItemDAO();
-        database.initializeMockDatabase();
+        shopItemDAO = new ShopItemDAO();
+        shopItemDAO.initializeMockDatabase();
         shoppingCartObservers = new ArrayList<>();
         searchResultObservers = new ArrayList<>();
         filterResultObservers = new ArrayList<>();
     }
 
-    public void setShopItemPickedForCart(int shopItemId) {
-        shopItemPickedForCart = database.findById(shopItemId).getFirst();
+    public void addItemToOrder(int shopItemId) {
+        shopItemPickedForOrder = shopItemDAO.findById(shopItemId).getFirst();
         notifyEmployeeDetailsObservers();
     }
 
     public void searchAll() {
-        currentSearchResult = database.findAll();
+        currentSearchResult = shopItemDAO.findAll();
         filteredSearchResult = currentSearchResult;
         notifySearchResultObservers();
 
     }
 
     public void searchByName(String name) {
-        currentSearchResult = database.findByName(name);
+        currentSearchResult = shopItemDAO.findByName(name);
         filteredSearchResult = currentSearchResult;
         notifySearchResultObservers();
     }
@@ -51,7 +51,7 @@ public class ShopModel {
     public void searchByID(String id) {
         try {
             int idInt = Integer.parseInt(id);
-            currentSearchResult = database.findById(idInt);
+            currentSearchResult = shopItemDAO.findById(idInt);
             filteredSearchResult = currentSearchResult;
             notifySearchResultObservers();
         } catch (NumberFormatException e) {
@@ -74,8 +74,8 @@ public class ShopModel {
 
 
     public void notifyEmployeeDetailsObservers() {
-        for (ShoppingCartObserver employeeDetailsObserver : shoppingCartObservers) {
-            employeeDetailsObserver.updateShoppingCart();
+        for (OrderObserver employeeDetailsObserver : shoppingCartObservers) {
+            employeeDetailsObserver.updateOrder();
         }
     }
 
@@ -92,7 +92,7 @@ public class ShopModel {
     }
 
 
-    public void registerEmployeeDetailsObserver(ShoppingCartObserver employeeDetailsObserver) {
+    public void registerEmployeeDetailsObserver(OrderObserver employeeDetailsObserver) {
         shoppingCartObservers.add(employeeDetailsObserver);
     }
 
@@ -106,8 +106,8 @@ public class ShopModel {
 
 
 
-    public ShopItem getShopItemPickedForCart() {
-        return shopItemPickedForCart;
+    public ShopItem getShopItemPickedForOrder() {
+        return shopItemPickedForOrder;
     }
 
     public List<ShopItem> getCurrentSearchResult() {
@@ -120,7 +120,7 @@ public class ShopModel {
 
 
     public void clearSearchHistory() {
-        shopItemPickedForCart = null;
+        shopItemPickedForOrder = null;
         currentSearchResult = null;
         filteredSearchResult = null;
     }

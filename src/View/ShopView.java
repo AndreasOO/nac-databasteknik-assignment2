@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.stream.Collectors;
 
-public class ShopView implements ShoppingCartObserver, SearchResultObserver, FilterResultObserver {
+public class ShopView implements OrderObserver, SearchResultObserver, FilterResultObserver {
     private final ShopModel shopModel;
 
     private final JFrame frame;
@@ -35,7 +35,7 @@ public class ShopView implements ShoppingCartObserver, SearchResultObserver, Fil
 
     private final JPanel orderMainPanel;
     private final JPanel orderTopPanel;
-    private final JButton addToCartButton;
+    private final JButton addToOrderButton;
     private final JPanel orderCenterPanel;
 
     private final JPanel orderTablePanel;
@@ -103,7 +103,7 @@ public class ShopView implements ShoppingCartObserver, SearchResultObserver, Fil
 
         orderMainPanel = new JPanel();
         orderTopPanel = new JPanel();
-        addToCartButton = new JButton("Add item to cart");
+        addToOrderButton = new JButton("Add item to order");
         orderCenterPanel = new JPanel();
 
 
@@ -172,7 +172,7 @@ public class ShopView implements ShoppingCartObserver, SearchResultObserver, Fil
         orderMainPanel.setLayout(new BorderLayout());
         orderMainPanel.add(orderTopPanel, BorderLayout.NORTH);
         orderTopPanel.setLayout(new GridLayout(1,1));
-        orderTopPanel.add(addToCartButton, BorderLayout.NORTH);
+        orderTopPanel.add(addToOrderButton, BorderLayout.NORTH);
 
         orderTablePanel.setLayout(new GridLayout(1,1));
         orderTablePanel.add(orderTableScrollPane);
@@ -256,8 +256,9 @@ public class ShopView implements ShoppingCartObserver, SearchResultObserver, Fil
     }
 
     @Override
-    public void updateShoppingCart() {
-        addItemToOrderTable(shopModel.getShopItemPickedForCart());
+    public void updateOrder() {
+        //TODO reset first then get full order list from model - in case of removed order
+        addItemToOrderTable(shopModel.getShopItemPickedForOrder());
     }
 
     @Override
@@ -302,8 +303,16 @@ public class ShopView implements ShoppingCartObserver, SearchResultObserver, Fil
     }
 
 
-    public JButton getAddToCartButton() {
-        return addToCartButton;
+    public JButton getAddToOrderButton() {
+        return addToOrderButton;
+    }
+
+    public JButton getRemoveOrderButton() {
+        return orderSummaryRemoveOrderButton;
+    }
+
+    public JButton getCompleteOrderButton() {
+        return orderSummaryCompleteOrderButton;
     }
 
 

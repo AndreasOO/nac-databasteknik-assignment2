@@ -38,7 +38,7 @@ public class CustomerUserState implements ControllerState {
     @Override
     public void addItemToCart() {
         int shopItemId = Integer.parseInt(view.getSelectedItemInSearchTable());
-        model.setShopItemPickedForCart(shopItemId);
+        model.addItemToOrder(shopItemId);
     }
 
 
@@ -56,6 +56,20 @@ public class CustomerUserState implements ControllerState {
     @Override
     public void updateView() {
         view.resetSearchTable();
+        view.resetOrderTable();
         view.showCustomerShopView();
+        performSearch();
+    }
+
+    @Override
+    public void completeOrder() {
+        // TODO Add action in model
+        System.out.println("Order completed");
+    }
+
+    @Override
+    public void removeOrder() {
+        // TODO Add action in model then let gui reset by observers
+         view.resetOrderTable();
     }
 }
