@@ -1,0 +1,317 @@
+package View;
+
+import Model.Category;
+import Model.ShopItem;
+import Model.ShopModel;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.stream.Collectors;
+
+public class ShopView implements ShoppingCartObserver, SearchResultObserver, FilterResultObserver {
+    private final ShopModel shopModel;
+
+    private final JFrame frame;
+    private final JPanel mainPanel;
+
+    private final JPanel topPanel;
+    private final JLabel searchLabel;
+    private final JTextField searchField;
+    private final JPanel radioButtonPanel;
+    private final ButtonGroup buttonGroup;
+    private final JRadioButton radioButtonItemName;
+    private final JRadioButton radioButtonItemSize;
+    private final JLabel filterLabel;
+    private final JComboBox<String> filterComboBox;
+    private final JButton logOutButton;
+
+    private final JPanel centerPanel;
+    private final JPanel searchResultPanel;
+    private final JTable searchResultTable;
+    private final DefaultTableModel searchResultTableModel;
+    private final JScrollPane searchResultScrollPane;
+
+    private final JPanel orderMainPanel;
+    private final JPanel orderTopPanel;
+    private final JButton addToCartButton;
+    private final JPanel orderCenterPanel;
+
+    private final JPanel orderTablePanel;
+    private final JTable orderTable;
+    private final DefaultTableModel orderTableModel;
+    private final JScrollPane orderTableScrollPane;
+
+    private final JPanel orderSummaryPanel;
+    private final JLabel orderSummaryTotalCost;
+    private final JButton orderSummaryCompleteOrderButton;
+    private final JButton orderSummaryRemoveOrderButton;
+
+    // login panel
+    private final JPanel loginPanel;
+    private final JPanel loginBox;
+    private final JTextField usernameTextField;
+    private final JTextField passwordTextField;
+    private final JButton loginButton;
+
+
+
+
+
+    public ShopView(ShopModel model) {
+        this.shopModel = model;
+        shopModel.registerEmployeeDetailsObserver(this);
+        shopModel.registerSearchResultObserver(this);
+        shopModel.registerFilterResultObserver(this);
+
+        frame = new JFrame();
+        mainPanel = new JPanel();
+
+        topPanel = new JPanel();
+        searchLabel = new JLabel("Search  ", SwingConstants.RIGHT);
+        searchField = new JTextField();
+        radioButtonPanel = new JPanel();
+        buttonGroup  = new ButtonGroup();
+        radioButtonItemName = new JRadioButton("Name");
+        radioButtonItemSize = new JRadioButton("Size");
+        filterLabel = new JLabel("Filter by category     ", SwingConstants.RIGHT);
+        filterComboBox = new JComboBox<>(new String[]{"None",
+                                                      "Sandals",
+                                                      "Running shoes",
+                                                      "Ladies shoes",
+                                                      "Men's shoes",
+                                                      "Walking shoes",
+                                                      "Slim shoes",
+                                                      "Crocs"});
+
+        logOutButton = new JButton("Log out");
+
+        centerPanel = new JPanel();
+        searchResultPanel = new JPanel();
+        searchResultTableModel = new DefaultTableModel();
+        searchResultTable = new JTable(searchResultTableModel);
+        searchResultScrollPane = new JScrollPane(searchResultTable);
+        searchResultTableModel.addColumn("ID");
+        searchResultTableModel.addColumn("Name");
+        searchResultTableModel.addColumn("Brand");
+        searchResultTableModel.addColumn("Size");
+        searchResultTableModel.addColumn("Categories");
+        searchResultTableModel.addColumn("Price");
+        searchResultTableModel.addColumn("Quantity");
+
+
+        orderMainPanel = new JPanel();
+        orderTopPanel = new JPanel();
+        addToCartButton = new JButton("Add item to cart");
+        orderCenterPanel = new JPanel();
+
+
+        orderTablePanel = new JPanel();
+        orderTableModel = new DefaultTableModel();
+        orderTable = new JTable(orderTableModel);
+        orderTableScrollPane = new JScrollPane(orderTable);
+        orderTableModel.addColumn("ID");
+        orderTableModel.addColumn("Name");
+        orderTableModel.addColumn("Brand");
+        orderTableModel.addColumn("Size");
+        orderTableModel.addColumn("Price");
+
+        orderSummaryPanel = new JPanel();
+        orderSummaryTotalCost = new JLabel("Total Cost: ");
+        orderSummaryCompleteOrderButton = new JButton("Complete Order");
+        orderSummaryRemoveOrderButton = new JButton("Remove Order");
+
+        loginPanel = new JPanel();
+        loginBox = new JPanel();
+        usernameTextField = new JTextField();
+        passwordTextField = new JTextField();
+        loginButton = new JButton("Login");
+
+
+    }
+
+    public void init() {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.add(mainPanel);
+
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+
+
+        radioButtonItemName.setSelected(true);
+        buttonGroup.add(radioButtonItemName);
+        buttonGroup.add(radioButtonItemSize);
+        radioButtonPanel.setLayout(new GridLayout(2, 1));
+        radioButtonPanel.add(radioButtonItemName);
+        radioButtonPanel.add(radioButtonItemSize);
+
+        topPanel.setLayout(new GridLayout(1,6));
+        topPanel.add(logOutButton);
+        topPanel.add(searchLabel);
+        topPanel.add(searchField);
+        topPanel.add(radioButtonPanel);
+        topPanel.add(filterLabel);
+        topPanel.add(filterComboBox);
+
+        centerPanel.setLayout(new GridLayout(2,1));
+        centerPanel.add(searchResultPanel);
+        centerPanel.add(orderMainPanel);
+
+        searchResultPanel.setLayout(new GridLayout(1,1));
+        searchResultPanel.add(searchResultScrollPane);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        searchResultTable.setDefaultRenderer(Object.class, centerRenderer);
+
+
+        orderMainPanel.setLayout(new BorderLayout());
+        orderMainPanel.add(orderTopPanel, BorderLayout.NORTH);
+        orderTopPanel.setLayout(new GridLayout(1,1));
+        orderTopPanel.add(addToCartButton, BorderLayout.NORTH);
+
+        orderTablePanel.setLayout(new GridLayout(1,1));
+        orderTablePanel.add(orderTableScrollPane);
+        DefaultTableCellRenderer centerRenderer2 = new DefaultTableCellRenderer();
+        centerRenderer2.setHorizontalAlignment(JLabel.CENTER);
+        orderTable.setDefaultRenderer(Object.class, centerRenderer2);
+
+        orderSummaryPanel.setLayout(new GridLayout(3,1));
+        orderSummaryPanel.add(orderSummaryTotalCost);
+        orderSummaryPanel.add(orderSummaryCompleteOrderButton);
+        orderSummaryPanel.add(orderSummaryRemoveOrderButton);
+
+
+
+        orderMainPanel.add(orderCenterPanel);
+        orderCenterPanel.setLayout(new GridLayout(1,2));
+        orderCenterPanel.add(orderTablePanel);
+        orderCenterPanel.add(orderSummaryPanel);
+
+
+
+
+        loginPanel.setLayout(new GridLayout(3,3));
+        loginPanel.add(new JPanel());
+        loginPanel.add(new JPanel());
+        loginPanel.add(new JPanel());
+        loginPanel.add(new JPanel());
+        loginPanel.add(loginBox);
+        loginPanel.add(new JPanel());
+        loginPanel.add(new JPanel());
+        loginPanel.add(new JPanel());
+        loginPanel.add(new JPanel());
+        loginBox.setLayout(new GridLayout(6,1));
+        loginBox.add(new JLabel("Username"));
+        loginBox.add(usernameTextField);
+        loginBox.add(new JLabel("Password"));
+        loginBox.add(passwordTextField);
+        loginBox.add(loginButton);
+
+
+    }
+
+    public void showUserLoginView() {
+        mainPanel.removeAll();
+        mainPanel.add(loginPanel);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    public void showCustomerShopView() {
+        mainPanel.removeAll();
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        centerPanel.removeAll();
+        centerPanel.add(searchResultPanel);
+        centerPanel.add(orderMainPanel);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+
+    public void addItemRowToSearchTable(ShopItem shopItem) {
+        searchResultTableModel.addRow(new String[]{String.valueOf(shopItem.getId()),
+                                                   shopItem.getName(),
+                                                   shopItem.getBrand(),
+                                                   String.valueOf(shopItem.getSize()),
+                                                   shopItem.getShoeCategoriesList().stream().map(Category::getDisplayName).collect(Collectors.joining(", ")),
+                                                   String.valueOf(shopItem.getPrice()),
+                                                   String.valueOf(shopItem.getQuantity())
+        });
+    }
+
+
+    public void addItemToOrderTable(ShopItem shopItem) {
+        orderTableModel.addRow(new String[]{String.valueOf(shopItem.getId()),
+                                            shopItem.getName(),
+                                            shopItem.getBrand(),
+                                            String.valueOf(shopItem.getSize()),
+                                            String.valueOf(shopItem.getPrice())
+        });
+    }
+
+    @Override
+    public void updateShoppingCart() {
+        addItemToOrderTable(shopModel.getShopItemPickedForCart());
+    }
+
+    @Override
+    public void updateSearchResult() {
+        resetSearchTable();
+        shopModel.getCurrentSearchResult().forEach(this::addItemRowToSearchTable);
+    }
+    @Override
+    public void updateFilterResult() {
+        resetSearchTable();
+        shopModel.getFilteredSearchResult().forEach(this::addItemRowToSearchTable);
+    }
+
+    public void resetSearchTable() {
+        searchResultTableModel.setRowCount(0);
+    }
+
+    public void resetOrderTable() {
+        orderTableModel.setRowCount(0);
+    }
+
+    public String getSelectedItemInSearchTable() {
+        int row = searchResultTable.getSelectedRow();
+        return searchResultTable.getValueAt(row,0).toString();
+    }
+
+
+    public JTextField getSearchField() {
+        return searchField;
+    }
+
+    public JRadioButton getRadioButtonItemName() {
+        return radioButtonItemName;
+    }
+
+    public JRadioButton getRadioButtonItemSize() {
+        return radioButtonItemSize;
+    }
+
+    public JComboBox<String> getFilterComboBox() {
+        return filterComboBox;
+    }
+
+
+    public JButton getAddToCartButton() {
+        return addToCartButton;
+    }
+
+
+    public JButton getLoginButton() {
+        return loginButton;
+    }
+
+    public JButton getLogOutButton() {
+        return logOutButton;
+    }
+}
