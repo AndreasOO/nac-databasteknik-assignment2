@@ -70,6 +70,6 @@ public class CustomerUserState implements ControllerState {
     @Override
     public void removeOrder() {
         // TODO Add action in model then let gui reset by observers
-         view.resetOrderTable();
+         model.clearOrder();
     }
 }

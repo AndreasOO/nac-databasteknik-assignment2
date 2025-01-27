@@ -61,7 +61,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
 
     public ShopView(ShopModel model) {
         this.shopModel = model;
-        shopModel.registerEmployeeDetailsObserver(this);
+        shopModel.registerOrderObserver(this);
         shopModel.registerSearchResultObserver(this);
         shopModel.registerFilterResultObserver(this);
 
@@ -257,8 +257,8 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
 
     @Override
     public void updateOrder() {
-        //TODO reset first then get full order list from model - in case of removed order
-        addItemToOrderTable(shopModel.getShopItemPickedForOrder());
+        resetOrderTable();
+        shopModel.getCurrentOrder().forEach(this::addItemToOrderTable);
     }
 
     @Override
