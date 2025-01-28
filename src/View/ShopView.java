@@ -27,6 +27,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     private final JComboBox<String> filterComboBox;
     private final JButton logOutButton;
 
+
     private final JPanel centerPanel;
     private final JPanel searchResultPanel;
     private final JTable searchResultTable;
@@ -56,7 +57,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     private final JPanel loginPanel;
     private final JPanel loginBox;
     private final JTextField usernameTextField;
-    private final JTextField passwordTextField;
+    private final JPasswordField passwordField;
     private final JButton loginButton;
 
 
@@ -132,7 +133,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         loginPanel = new JPanel();
         loginBox = new JPanel();
         usernameTextField = new JTextField();
-        passwordTextField = new JTextField();
+        passwordField = new JPasswordField();
         loginButton = new JButton("Login");
 
 
@@ -221,7 +222,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         loginBox.add(new JLabel("Username"));
         loginBox.add(usernameTextField);
         loginBox.add(new JLabel("Password"));
-        loginBox.add(passwordTextField);
+        loginBox.add(passwordField);
         loginBox.add(loginButton);
 
 
