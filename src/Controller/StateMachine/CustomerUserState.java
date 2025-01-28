@@ -73,5 +73,6 @@ public class CustomerUserState implements ControllerState {
     public void removeOrder() {
         // TODO Add action in model then let gui reset by observers
          model.clearOrder();
+         view.resetOrderSummary();
     }
 }
