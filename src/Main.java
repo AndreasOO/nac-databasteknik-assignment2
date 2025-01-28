@@ -10,8 +10,8 @@ public class Main {
         controller.initializeController();
 
 
-//        String username = "shopadmin";
-//        String password = "test1234";
+        String username = "shopadmin";
+        String password = "test1234";
 
 //        try (Connection con = DriverManager.getConnection(
 //                "jdbc:mysql://localhost:3306/shop_db?serverTimeZone=UTC&useSSL=false&allowPublicKeyRetrieval=true", username, password);
