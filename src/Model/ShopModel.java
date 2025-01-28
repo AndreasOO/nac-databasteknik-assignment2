@@ -27,6 +27,8 @@ public class ShopModel {
         shopItemDAO = new ShopItemDAO();
         shopItemDAO.initializeMockDatabase();
         currentOrder = new ArrayList<>();
+        currentSearchResult = new ArrayList<>();
+        filteredSearchResult = new ArrayList<>();
         shoppingCartObservers = new ArrayList<>();
         searchResultObservers = new ArrayList<>();
         filterResultObservers = new ArrayList<>();
@@ -136,8 +138,8 @@ public class ShopModel {
 
     public void clearSearchHistory() {
         shopItemPickedForOrder = null;
-        currentSearchResult = null;
-        filteredSearchResult = null;
+        currentSearchResult = new ArrayList<>();
+        filteredSearchResult = new ArrayList<>();
         currentOrder = new ArrayList<>();
     }
 }

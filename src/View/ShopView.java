@@ -288,6 +288,11 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         searchResultTableModel.setRowCount(0);
     }
 
+    public void resetSearchParameters() {
+        filterComboBox.setSelectedIndex(0);
+        searchField.setText("");
+    }
+
     public void resetOrderTable() {
         orderTableModel.setRowCount(0);
     }
@@ -297,6 +302,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         orderSummaryZipCodeTextField.setText("");
         orderSummaryTotalCostTextField.setText("");
     }
+
 
     public String getSelectedItemInSearchTable() {
         int row = searchResultTable.getSelectedRow();
