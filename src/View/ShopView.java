@@ -44,9 +44,13 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     private final JScrollPane orderTableScrollPane;
 
     private final JPanel orderSummaryPanel;
-    private final JLabel orderSummaryTotalCost;
+
+    private final TextField orderSummaryShippingAddressTextField;
+    private final TextField orderSummaryZipCodeTextField;
+    private final TextField orderSummaryTotalCostTextField;
     private final JButton orderSummaryCompleteOrderButton;
     private final JButton orderSummaryRemoveOrderButton;
+
 
     // login panel
     private final JPanel loginPanel;
@@ -118,7 +122,10 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         orderTableModel.addColumn("Price");
 
         orderSummaryPanel = new JPanel();
-        orderSummaryTotalCost = new JLabel("Total Cost: ");
+        orderSummaryShippingAddressTextField = new TextField();
+        orderSummaryZipCodeTextField = new TextField();
+        orderSummaryTotalCostTextField = new TextField();
+        orderSummaryTotalCostTextField.setEditable(false);
         orderSummaryCompleteOrderButton = new JButton("Complete Order");
         orderSummaryRemoveOrderButton = new JButton("Remove Order");
 
@@ -180,8 +187,13 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         centerRenderer2.setHorizontalAlignment(JLabel.CENTER);
         orderTable.setDefaultRenderer(Object.class, centerRenderer2);
 
-        orderSummaryPanel.setLayout(new GridLayout(3,1));
-        orderSummaryPanel.add(orderSummaryTotalCost);
+        orderSummaryPanel.setLayout(new GridLayout(8,1));
+        orderSummaryPanel.add(new JLabel("Shipping Address"));
+        orderSummaryPanel.add(orderSummaryShippingAddressTextField);
+        orderSummaryPanel.add(new JLabel("Zip Code"));
+        orderSummaryPanel.add(orderSummaryZipCodeTextField);
+        orderSummaryPanel.add(new JLabel("Total cost"));
+        orderSummaryPanel.add(orderSummaryTotalCostTextField);
         orderSummaryPanel.add(orderSummaryCompleteOrderButton);
         orderSummaryPanel.add(orderSummaryRemoveOrderButton);
 
@@ -278,6 +290,12 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
 
     public void resetOrderTable() {
         orderTableModel.setRowCount(0);
+    }
+
+    public void resetOrderSummary() {
+        orderSummaryShippingAddressTextField.setText("");
+        orderSummaryZipCodeTextField.setText("");
+        orderSummaryTotalCostTextField.setText("");
     }
 
     public String getSelectedItemInSearchTable() {

@@ -57,6 +57,7 @@ public class CustomerUserState implements ControllerState {
     public void updateView() {
         view.resetSearchTable();
         view.resetOrderTable();
+        view.resetOrderSummary();
         view.showCustomerShopView();
         performSearch();
     }
