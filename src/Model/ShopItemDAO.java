@@ -34,9 +34,15 @@ public class ShopItemDAO {
         List<ShopItem> items = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(datasourceURL, username, password);
-
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "select shop_items.id, products.name, brands.name, specifications.size, group_concat(categories.name separator ',') as category_list , products.price,  shop_items.quantity from shop_items " +
+                     "select shop_items.id, " +
+                                "products.name, " +
+                                "brands.name, " +
+                                "specifications.size, " +
+                                "group_concat(categories.name separator ',') as category_list , " +
+                                "products.price,  " +
+                                "shop_items.quantity " +
+                             "from shop_items " +
                              "inner join products ON products.id = shop_items.product_id " +
                              "inner join specifications ON specifications.id = shop_items.specification_id " +
                              "inner join brands ON brands.id = products.brand_id " +
@@ -47,18 +53,8 @@ public class ShopItemDAO {
              )
         {
             while (resultSet.next()) {
-                int id = resultSet.getInt("shop_items.id");
-                String productName = resultSet.getString("products.name");
-                String brandName = resultSet.getString("brands.name");
-                int size = resultSet.getInt("specifications.size");
-                String categoryName = resultSet.getString("category_list");
-                int price = resultSet.getInt("products.price");
-                int quantity = resultSet.getInt("shop_items.quantity");
-
-
-                ShopItem shopItem = new ShopItem(id, productName, brandName, size, Arrays.stream(categoryName.split(",")).map(this::categoryMatcher).collect(Collectors.toList()), price, quantity);
+                ShopItem shopItem = createShopItemFromResultRow(resultSet);
                 items.add(shopItem);
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,20 +62,97 @@ public class ShopItemDAO {
         return items;
     }
 
-    private Category categoryMatcher(String categoryString) {
-        return Arrays.stream(Category.values()).filter(cat -> cat.getDisplayName().equalsIgnoreCase(categoryString)).findFirst().orElse(null);
-    }
-
     public List<ShopItem> findByName(String searchInput) {
-        return shopItems.values().stream().filter(x -> x.getName().contains(searchInput.trim())).collect(Collectors.toList());
+        List<ShopItem> items = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(datasourceURL, username, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "select shop_items.id, " +
+                                "products.name, " +
+                                "brands.name, " +
+                                "specifications.size, " +
+                                "group_concat(categories.name separator ',') as category_list , " +
+                                "products.price,  " +
+                                "shop_items.quantity " +
+                             "from shop_items " +
+                             "inner join products ON products.id = shop_items.product_id " +
+                             "inner join specifications ON specifications.id = shop_items.specification_id " +
+                             "inner join brands ON brands.id = products.brand_id " +
+                             "inner join products_categories ON products_categories.product_id = products.id " +
+                             "inner join categories ON categories.id = products_categories.category_id " +
+                             "where products.name like ?" +
+                             "group by shop_items.id")
+        ) {
+            preparedStatement.setString(1, "%"+searchInput+"%");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                    items.add(shopItem);
+                }
+        }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
     }
 
     public List<ShopItem> findById(int id) {
-        List<ShopItem> result =  new ArrayList<>();
+        List<ShopItem> items = new ArrayList<>();
 
-        if (shopItems.containsKey(id)) {
-            result.add(shopItems.get(id));
+        try (Connection connection = DriverManager.getConnection(datasourceURL, username, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "select shop_items.id, " +
+                                "products.name, " +
+                                "brands.name, " +
+                                "specifications.size, " +
+                                "group_concat(categories.name separator ',') as category_list , " +
+                                "products.price,  " +
+                                "shop_items.quantity " +
+                             "from shop_items " +
+                             "inner join products ON products.id = shop_items.product_id " +
+                             "inner join specifications ON specifications.id = shop_items.specification_id " +
+                             "inner join brands ON brands.id = products.brand_id " +
+                             "inner join products_categories ON products_categories.product_id = products.id " +
+                             "inner join categories ON categories.id = products_categories.category_id " +
+                             "where shop_items.id = ? " +
+                             "group by shop_items.id")
+        ) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                    items.add(shopItem);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return result;
+        return items;
+    }
+
+    private ShopItem createShopItemFromResultRow(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("shop_items.id");
+        String productName = resultSet.getString("products.name");
+        String brandName = resultSet.getString("brands.name");
+        int size = resultSet.getInt("specifications.size");
+        String categoryConcatStr = resultSet.getString("category_list");
+        int price = resultSet.getInt("products.price");
+        int quantity = resultSet.getInt("shop_items.quantity");
+
+
+        ShopItem shopItem = new ShopItem(id,
+                productName,
+                brandName,
+                size,
+                Arrays.stream(categoryConcatStr.split(",")).map(this::categoryStrToEnumMatcher).collect(Collectors.toList()),
+                price,
+                quantity);
+        return shopItem;
+    }
+
+    private Category categoryStrToEnumMatcher(String categoryString) {
+        return Arrays.stream(Category.values()).filter(cat -> cat.getDisplayName().equalsIgnoreCase(categoryString)).findFirst().orElse(null);
     }
 }
