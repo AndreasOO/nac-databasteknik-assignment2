@@ -25,7 +25,6 @@ public class ShopModel {
 
     public ShopModel() {
         shopItemDAO = new ShopItemDAO();
-        shopItemDAO.initializeMockDatabase();
         currentOrder = new ArrayList<>();
         currentSearchResult = new ArrayList<>();
         filteredSearchResult = new ArrayList<>();

@@ -4,29 +4,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ShopItemDAO {
-    private final Map<Integer, ShopItem> shopItems;
-    private String datasourceURL;
-    private String username;
-    private String password;
+
+    private final String datasourceURL;
+    private final String username;
+    private final String password;
 
     public ShopItemDAO() {
         datasourceURL = "jdbc:mysql://localhost:3306/shop_db?serverTimeZone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
         username = "shopadmin";
         password = "test1234";
-        shopItems = initializeMockDatabase();
-    }
 
-    public Map<Integer, ShopItem> initializeMockDatabase() {
-        return DataLoaderShopItem.loadData().stream().collect(Collectors.toMap(ShopItem::getId, Function.identity()));
-    }
-
-    public Map<Integer, ShopItem> getShopItems() {
-        return shopItems;
     }
 
     public List<ShopItem> findAll() {
