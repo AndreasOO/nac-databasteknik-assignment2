@@ -22,7 +22,7 @@ public class CustomerUserState implements ControllerState {
             model.searchAll();
         }
         else if (view.getRadioButtonItemSize().isSelected()) {
-            model.searchByID(searchInput);
+            model.searchBySize(searchInput);
         }
         else if (view.getRadioButtonItemName().isSelected()) {
             model.searchByName(searchInput);

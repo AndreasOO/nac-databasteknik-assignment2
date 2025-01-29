@@ -122,6 +122,41 @@ public class ShopItemDAO {
         return items;
     }
 
+    public List<ShopItem> findBySize(int size) {
+        List<ShopItem> items = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(datasourceURL, username, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "select shop_items.id, " +
+                             "products.name, " +
+                             "brands.name, " +
+                             "specifications.size, " +
+                             "group_concat(categories.name separator ',') as category_list , " +
+                             "products.price,  " +
+                             "shop_items.quantity " +
+                             "from shop_items " +
+                             "inner join products ON products.id = shop_items.product_id " +
+                             "inner join specifications ON specifications.id = shop_items.specification_id " +
+                             "inner join brands ON brands.id = products.brand_id " +
+                             "inner join products_categories ON products_categories.product_id = products.id " +
+                             "inner join categories ON categories.id = products_categories.category_id " +
+                             "where specifications.size = ? " +
+                             "group by shop_items.id")
+        ) {
+            preparedStatement.setInt(1, size);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                    items.add(shopItem);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
     private ShopItem createShopItemFromResultRow(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("shop_items.id");
         String productName = resultSet.getString("products.name");

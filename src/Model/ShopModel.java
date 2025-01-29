@@ -33,6 +33,7 @@ public class ShopModel {
         filterResultObservers = new ArrayList<>();
     }
 
+    //TODO redo with stored procedure
     public void addItemToOrder(int shopItemId) {
         shopItemPickedForOrder = shopItemDAO.findById(shopItemId).getFirst();
         currentOrder.add(shopItemPickedForOrder);
@@ -56,6 +57,21 @@ public class ShopModel {
         filteredSearchResult = currentSearchResult;
         notifySearchResultObservers();
     }
+
+    public void searchBySize(String size) {
+        try {
+            int sizeInt = Integer.parseInt(size);
+            currentSearchResult = shopItemDAO.findBySize(sizeInt);
+            filteredSearchResult = currentSearchResult;
+            notifySearchResultObservers();
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid size logged");
+            currentSearchResult = new ArrayList<>();
+            filteredSearchResult = currentSearchResult;
+            notifySearchResultObservers();
+        }
+    }
+
 
     public void searchByID(String id) {
         try {

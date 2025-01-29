@@ -272,6 +272,8 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     public void updateOrder() {
         resetOrderTable();
         shopModel.getCurrentOrder().forEach(this::addItemToOrderTable);
+        int orderPriceSum = shopModel.getCurrentOrder().stream().mapToInt(ShopItem::getPrice).sum();
+        orderSummaryTotalCostTextField.setText(String.valueOf(orderPriceSum));
     }
 
     @Override
