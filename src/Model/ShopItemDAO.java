@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 public class ShopItemDAO {
 
     private final String datasourceURL;
-    private final String username;
-    private final String password;
+    private final String datasourceUsername;
+    private final String datasourcePassword;
 
     public ShopItemDAO() {
         datasourceURL = "jdbc:mysql://localhost:3306/shop_db?serverTimeZone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
-        username = "shopadmin";
-        password = "test1234";
+        datasourceUsername = "shopadmin";
+        datasourcePassword = "test1234";
 
     }
 
@@ -23,7 +23,7 @@ public class ShopItemDAO {
 
         List<ShopItem> items = new ArrayList<>();
 
-        try (Connection connection = DriverManager.getConnection(datasourceURL, username, password);
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select shop_items.id, " +
                                 "products.name, " +
@@ -55,7 +55,7 @@ public class ShopItemDAO {
     public List<ShopItem> findByName(String searchInput) {
         List<ShopItem> items = new ArrayList<>();
 
-        try (Connection connection = DriverManager.getConnection(datasourceURL, username, password);
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select shop_items.id, " +
                                 "products.name, " +
@@ -90,7 +90,7 @@ public class ShopItemDAO {
     public List<ShopItem> findById(int id) {
         List<ShopItem> items = new ArrayList<>();
 
-        try (Connection connection = DriverManager.getConnection(datasourceURL, username, password);
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select shop_items.id, " +
                                 "products.name, " +
@@ -125,15 +125,15 @@ public class ShopItemDAO {
     public List<ShopItem> findBySize(int size) {
         List<ShopItem> items = new ArrayList<>();
 
-        try (Connection connection = DriverManager.getConnection(datasourceURL, username, password);
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select shop_items.id, " +
-                             "products.name, " +
-                             "brands.name, " +
-                             "specifications.size, " +
-                             "group_concat(categories.name separator ',') as category_list , " +
-                             "products.price,  " +
-                             "shop_items.quantity " +
+                                "products.name, " +
+                                "brands.name, " +
+                                "specifications.size, " +
+                                "group_concat(categories.name separator ',') as category_list , " +
+                                "products.price,  " +
+                                "shop_items.quantity " +
                              "from shop_items " +
                              "inner join products ON products.id = shop_items.product_id " +
                              "inner join specifications ON specifications.id = shop_items.specification_id " +
