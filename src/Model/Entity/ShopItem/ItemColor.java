@@ -1,4 +1,4 @@
-package Model.Entity;
+package Model.Entity.ShopItem;
 
 public enum ItemColor {
     BLACK("Black"),

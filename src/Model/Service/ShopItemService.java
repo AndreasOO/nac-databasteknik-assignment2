@@ -1,6 +1,6 @@
 package Model.Service;
 
-import Model.Entity.ShopItem;
+import Model.Entity.ShopItem.ShopItem;
 
 import java.util.List;
 

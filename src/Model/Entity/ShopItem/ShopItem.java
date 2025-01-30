@@ -1,4 +1,4 @@
-package Model.Entity;
+package Model.Entity.ShopItem;
 
 import java.util.List;
 

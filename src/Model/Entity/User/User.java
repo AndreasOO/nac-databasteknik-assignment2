@@ -1,4 +1,4 @@
-package Model.Entity;
+package Model.Entity.User;
 
 public class User {
     private final int id;

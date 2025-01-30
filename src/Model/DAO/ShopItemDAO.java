@@ -1,8 +1,8 @@
 package Model.DAO;
 
-import Model.Entity.Category;
-import Model.Entity.ItemColor;
-import Model.Entity.ShopItem;
+import Model.Entity.ShopItem.Category;
+import Model.Entity.ShopItem.ItemColor;
+import Model.Entity.ShopItem.ShopItem;
 import Model.Service.ShopItemService;
 
 import java.sql.*;
@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 
 public class ShopItemDAO implements ShopItemService {
 
-    private String datasourceURL;
-    private String datasourceUsername;
-    private String datasourcePassword;
+    private final String datasourceURL;
+    private final String datasourceUsername;
+    private final String datasourcePassword;
 
     public ShopItemDAO() {
         datasourceURL = ConnectionConfigManager.getInstance().getDatasourceURL();
@@ -26,7 +26,7 @@ public class ShopItemDAO implements ShopItemService {
     public List<ShopItem> findAll() {
 
         List<ShopItem> items = new ArrayList<>();
-        System.out.println(datasourceURL);
+
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select shop_items.id, " +

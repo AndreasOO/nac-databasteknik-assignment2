@@ -2,9 +2,9 @@ package Model;
 
 import Model.DAO.ShopItemDAO;
 import Model.DAO.UserDAO;
-import Model.Entity.Category;
-import Model.Entity.ShopItem;
-import Model.Entity.User;
+import Model.Entity.ShopItem.Category;
+import Model.Entity.ShopItem.ShopItem;
+import Model.Entity.User.User;
 import Model.Service.ShopItemService;
 import Model.Service.UserService;
 import View.OrderObserver;
