@@ -13,21 +13,20 @@ import java.util.stream.Collectors;
 
 public class ShopItemDAO implements ShopItemService {
 
-    private final String datasourceURL;
-    private final String datasourceUsername;
-    private final String datasourcePassword;
+    private String datasourceURL;
+    private String datasourceUsername;
+    private String datasourcePassword;
 
     public ShopItemDAO() {
-        datasourceURL = "jdbc:mysql://localhost:3306/shop_db?serverTimeZone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
-        datasourceUsername = "shopadmin";
-        datasourcePassword = "test1234";
-
+        datasourceURL = ConnectionConfigManager.getInstance().getDatasourceURL();
+        datasourceUsername = ConnectionConfigManager.getInstance().getDatasourceUsername();
+        datasourcePassword = ConnectionConfigManager.getInstance().getDatasourcePassword();
     }
     @Override
     public List<ShopItem> findAll() {
 
         List<ShopItem> items = new ArrayList<>();
-
+        System.out.println(datasourceURL);
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select shop_items.id, " +

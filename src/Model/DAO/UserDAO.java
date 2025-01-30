@@ -12,9 +12,9 @@ public class UserDAO implements UserService {
     private final String datasourcePassword;
 
     public UserDAO() {
-        datasourceURL = "jdbc:mysql://localhost:3306/shop_db?serverTimeZone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
-        datasourceUsername = "shopadmin";
-        datasourcePassword = "test1234";
+        datasourceURL = ConnectionConfigManager.getInstance().getDatasourceURL();
+        datasourceUsername = ConnectionConfigManager.getInstance().getDatasourceUsername();
+        datasourcePassword = ConnectionConfigManager.getInstance().getDatasourcePassword();
     }
     @Override
     public User findUserByEmail(String email) {
