@@ -1,18 +1,22 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
+import Controller.User;
 import Model.ShopModel;
+import Security.UserAuthenticator;
 import View.ShopView;
 
 public class LoginState implements ControllerState {
     private final ShopController controller;
     private final ShopView view;
     private final ShopModel model;
+    private final UserAuthenticator authenticator;
 
     public LoginState(ShopController controller, ShopView view, ShopModel model) {
         this.controller = controller;
         this.view = view;
         this.model = model;
+        authenticator = UserAuthenticator.getInstance();
     }
 
     @Override
@@ -32,10 +36,20 @@ public class LoginState implements ControllerState {
 
     @Override
     public void loginUser() {
-            //TODO: check user credentials before login
-            //TODO: Get user id and att to model
+        String username = view.getInputUsername();
+        String password = view.getInputPassword();
+        if (authenticator.authenticate(username, password)) {
             controller.changeToCustomerUserState();
+            //TODO: Get user id and att to model
+            view.resetLoginForm();
 
+            return;
+        } else {
+
+            view.showLoginErrorMessage();
+        }
+
+            return;
 
     }
 

@@ -300,6 +300,11 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         orderTableModel.setRowCount(0);
     }
 
+    public void resetLoginForm() {
+        usernameTextField.setText("");
+        passwordField.setText("");
+    }
+
     public void resetOrderSummary() {
         orderSummaryShippingAddressTextField.setText("");
         orderSummaryZipCodeTextField.setText("");
@@ -350,4 +355,19 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     public JButton getLogOutButton() {
         return logOutButton;
     }
+
+    public String getInputUsername() {
+        return usernameTextField.getText();
+    }
+
+    public String getInputPassword() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(passwordField.getPassword());
+        return sb.toString();
+    }
+
+    public void showLoginErrorMessage() {
+        JOptionPane.showMessageDialog(frame, "Incorrect username or password, please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
 }
