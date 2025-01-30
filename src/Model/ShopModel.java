@@ -3,6 +3,7 @@ package Model;
 import View.OrderObserver;
 import View.FilterResultObserver;
 import View.SearchResultObserver;
+import View.UserObserver;
 
 
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.stream.Collectors;
 
 
 public class ShopModel {
+    private final UserDAO userDAO;
+    private User userLoggedIn;
     private final ShopItemDAO shopItemDAO;
     private ShopItem shopItemPickedForOrder;
     private List<ShopItem> currentOrder;
@@ -21,9 +24,10 @@ public class ShopModel {
     private final List<OrderObserver> shoppingCartObservers;
     private final List<SearchResultObserver> searchResultObservers;
     private final List<FilterResultObserver> filterResultObservers;
-
+    private final List<UserObserver> userObservers;
 
     public ShopModel() {
+        userDAO = new UserDAO();
         shopItemDAO = new ShopItemDAO();
         currentOrder = new ArrayList<>();
         currentSearchResult = new ArrayList<>();
@@ -31,6 +35,12 @@ public class ShopModel {
         shoppingCartObservers = new ArrayList<>();
         searchResultObservers = new ArrayList<>();
         filterResultObservers = new ArrayList<>();
+        userObservers = new ArrayList<>();
+    }
+
+    public void loginAuthenticatedUserByUsername(String username) {
+        userLoggedIn = userDAO.findUserByEmail(username);
+        notifyUserObservers();
     }
 
     //TODO redo with stored procedure
@@ -120,6 +130,14 @@ public class ShopModel {
         }
     }
 
+    public void notifyUserObservers() {
+        for (UserObserver userObserver : userObservers) {
+            userObserver.updateLoggedInUser();
+        }
+    }
+
+
+
 
     public void registerOrderObserver(OrderObserver orderObserver) {
         shoppingCartObservers.add(orderObserver);
@@ -131,6 +149,10 @@ public class ShopModel {
 
     public void registerFilterResultObserver(FilterResultObserver filterResultObserver) {
         filterResultObservers.add(filterResultObserver);
+    }
+
+    public void registerUserObserver(UserObserver userObserver) {
+        userObservers.add(userObserver);
     }
 
 
@@ -149,6 +171,10 @@ public class ShopModel {
 
     public List<ShopItem> getCurrentOrder() {
         return currentOrder;
+    }
+
+    public User getUserLoggedIn() {
+        return userLoggedIn;
     }
 
     public void clearSearchHistory() {

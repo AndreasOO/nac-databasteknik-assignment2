@@ -1,7 +1,6 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
-import Controller.User;
 import Model.ShopModel;
 import Security.UserAuthenticator;
 import View.ShopView;
@@ -39,18 +38,12 @@ public class LoginState implements ControllerState {
         String username = view.getInputUsername();
         String password = view.getInputPassword();
         if (authenticator.authenticate(username, password)) {
+            model.loginAuthenticatedUserByUsername(username);
             controller.changeToCustomerUserState();
-            //TODO: Get user id and att to model
             view.resetLoginForm();
-
-            return;
         } else {
-
             view.showLoginErrorMessage();
         }
-
-            return;
-
     }
 
     @Override

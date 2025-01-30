@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.stream.Collectors;
 
-public class ShopView implements OrderObserver, SearchResultObserver, FilterResultObserver {
+public class ShopView implements OrderObserver, SearchResultObserver, FilterResultObserver, UserObserver {
     private final ShopModel shopModel;
 
     private final JFrame frame;
@@ -26,6 +26,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     private final JLabel filterLabel;
     private final JComboBox<String> filterComboBox;
     private final JButton logOutButton;
+    private final JLabel usernameTopPanelLabel;
 
 
     private final JPanel centerPanel;
@@ -69,6 +70,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         shopModel.registerOrderObserver(this);
         shopModel.registerSearchResultObserver(this);
         shopModel.registerFilterResultObserver(this);
+        shopModel.registerUserObserver(this);
 
         frame = new JFrame();
         mainPanel = new JPanel();
@@ -80,7 +82,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         buttonGroup  = new ButtonGroup();
         radioButtonItemName = new JRadioButton("Name");
         radioButtonItemSize = new JRadioButton("Size");
-        filterLabel = new JLabel("Filter by category     ", SwingConstants.RIGHT);
+        filterLabel = new JLabel("Filter    ", SwingConstants.RIGHT);
         filterComboBox = new JComboBox<>(new String[]{"None",
                                                       "Sandals",
                                                       "Running shoes",
@@ -91,6 +93,8 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
                                                       "Crocs"});
 
         logOutButton = new JButton("Log out");
+        usernameTopPanelLabel = new JLabel();
+
 
         centerPanel = new JPanel();
         searchResultPanel = new JPanel();
@@ -158,8 +162,9 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         radioButtonPanel.add(radioButtonItemName);
         radioButtonPanel.add(radioButtonItemSize);
 
-        topPanel.setLayout(new GridLayout(1,6));
+        topPanel.setLayout(new GridLayout(1,7));
         topPanel.add(logOutButton);
+        topPanel.add(usernameTopPanelLabel);
         topPanel.add(searchLabel);
         topPanel.add(searchField);
         topPanel.add(radioButtonPanel);
@@ -287,6 +292,11 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         shopModel.getFilteredSearchResult().forEach(this::addItemRowToSearchTable);
     }
 
+    @Override
+    public void updateLoggedInUser() {
+        usernameTopPanelLabel.setText("      " + shopModel.getUserLoggedIn().getName());
+    }
+
     public void resetSearchTable() {
         searchResultTableModel.setRowCount(0);
     }
@@ -303,6 +313,10 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     public void resetLoginForm() {
         usernameTextField.setText("");
         passwordField.setText("");
+    }
+
+    public void resetUserLoggedIn() {
+        usernameTextField.setText("");
     }
 
     public void resetOrderSummary() {
