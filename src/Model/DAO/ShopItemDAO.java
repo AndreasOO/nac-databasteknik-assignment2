@@ -1,6 +1,7 @@
 package Model.DAO;
 
 import Model.Entity.Category;
+import Model.Entity.ItemColor;
 import Model.Entity.ShopItem;
 import Model.Service.ShopItemService;
 
@@ -32,6 +33,7 @@ public class ShopItemDAO implements ShopItemService {
                      "select shop_items.id, " +
                                 "products.name, " +
                                 "brands.name, " +
+                                "specifications.color, " +
                                 "specifications.size, " +
                                 "group_concat(categories.name separator ',') as category_list , " +
                                 "products.price,  " +
@@ -64,6 +66,7 @@ public class ShopItemDAO implements ShopItemService {
                      "select shop_items.id, " +
                                 "products.name, " +
                                 "brands.name, " +
+                                "specifications.color, " +
                                 "specifications.size, " +
                                 "group_concat(categories.name separator ',') as category_list , " +
                                 "products.price,  " +
@@ -99,6 +102,7 @@ public class ShopItemDAO implements ShopItemService {
                      "select shop_items.id, " +
                                 "products.name, " +
                                 "brands.name, " +
+                                "specifications.color, " +
                                 "specifications.size, " +
                                 "group_concat(categories.name separator ',') as category_list , " +
                                 "products.price,  " +
@@ -134,6 +138,7 @@ public class ShopItemDAO implements ShopItemService {
                      "select shop_items.id, " +
                                 "products.name, " +
                                 "brands.name, " +
+                                "specifications.color, " +
                                 "specifications.size, " +
                                 "group_concat(categories.name separator ',') as category_list , " +
                                 "products.price,  " +
@@ -165,6 +170,7 @@ public class ShopItemDAO implements ShopItemService {
         int id = resultSet.getInt("shop_items.id");
         String productName = resultSet.getString("products.name");
         String brandName = resultSet.getString("brands.name");
+        String color = resultSet.getString("specifications.color");
         int size = resultSet.getInt("specifications.size");
         String categoryConcatStr = resultSet.getString("category_list");
         int price = resultSet.getInt("products.price");
@@ -174,6 +180,7 @@ public class ShopItemDAO implements ShopItemService {
         ShopItem shopItem = new ShopItem(id,
                 productName,
                 brandName,
+                Arrays.stream(ItemColor.values()).filter(colEnum -> colEnum.getDisplayName().equalsIgnoreCase(color)).findFirst().orElse(null),
                 size,
                 Arrays.stream(categoryConcatStr.split(",")).map(this::categoryStrToEnumMatcher).collect(Collectors.toList()),
                 price,

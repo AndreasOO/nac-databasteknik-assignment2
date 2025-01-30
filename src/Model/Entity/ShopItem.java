@@ -6,15 +6,17 @@ public class ShopItem {
     private final int id;
     private final String name;
     private final String brand;
+    private final ItemColor color;
     private final int size;
     private final List<Category> shoeCategoriesList;
     private final int price;
     private final int quantity;
 
-    public ShopItem(int id, String name, String brand, int size, List<Category> shoeCategories, int price, int quantity) {
+    public ShopItem(int id, String name, String brand, ItemColor color, int size, List<Category> shoeCategories, int price, int quantity) {
         this.id = id;
         this.name = name;
         this.brand = brand;
+        this.color = color;
         this.size = size;
         this.shoeCategoriesList = shoeCategories;
         this.price = price;
@@ -31,6 +33,10 @@ public class ShopItem {
 
     public String getBrand() {
         return brand;
+    }
+
+    public ItemColor getColor() {
+        return color;
     }
 
     public int getSize() {
@@ -55,6 +61,7 @@ public class ShopItem {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", brand='" + brand + '\'' +
+                ", color=" + color +
                 ", size=" + size +
                 ", shoeCategoriesList=" + shoeCategoriesList +
                 ", price=" + price +

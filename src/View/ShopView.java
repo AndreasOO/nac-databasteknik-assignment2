@@ -103,6 +103,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         searchResultScrollPane = new JScrollPane(searchResultTable);
         searchResultTableModel.addColumn("Name");
         searchResultTableModel.addColumn("Brand");
+        searchResultTableModel.addColumn("Color");
         searchResultTableModel.addColumn("Size");
         searchResultTableModel.addColumn("Categories");
         searchResultTableModel.addColumn("Price");
@@ -121,6 +122,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         orderTableScrollPane = new JScrollPane(orderTable);
         orderTableModel.addColumn("Name");
         orderTableModel.addColumn("Brand");
+        orderTableModel.addColumn("Color");
         orderTableModel.addColumn("Size");
         orderTableModel.addColumn("Price");
 
@@ -254,6 +256,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         searchResultTableModel.addRow(new String[]{
                                                    shopItem.getName(),
                                                    shopItem.getBrand(),
+                                                   shopItem.getColor().getDisplayName(),
                                                    String.valueOf(shopItem.getSize()),
                                                    shopItem.getShoeCategoriesList().stream().map(Category::getDisplayName).collect(Collectors.joining(", ")),
                                                    String.valueOf(shopItem.getPrice()),
@@ -266,6 +269,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         orderTableModel.addRow(new String[]{
                                             shopItem.getName(),
                                             shopItem.getBrand(),
+                                            shopItem.getColor().getDisplayName(),
                                             String.valueOf(shopItem.getSize()),
                                             String.valueOf(shopItem.getPrice())
         });
