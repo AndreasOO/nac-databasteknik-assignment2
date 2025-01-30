@@ -5,6 +5,8 @@ import Model.DAO.UserDAO;
 import Model.Entity.Category;
 import Model.Entity.ShopItem;
 import Model.Entity.User;
+import Model.Service.ShopItemService;
+import Model.Service.UserService;
 import View.OrderObserver;
 import View.FilterResultObserver;
 import View.SearchResultObserver;
@@ -18,9 +20,9 @@ import java.util.stream.Collectors;
 
 
 public class ShopModel {
-    private final UserDAO userDAO;
+    private final UserService userService;
     private User userLoggedIn;
-    private final ShopItemDAO shopItemDAO;
+    private final ShopItemService shopItemService;
     private ShopItem shopItemPickedForOrder;
     private List<ShopItem> currentOrder;
     private List<ShopItem> currentSearchResult;
@@ -32,8 +34,8 @@ public class ShopModel {
     private final List<UserObserver> userObservers;
 
     public ShopModel() {
-        userDAO = new UserDAO();
-        shopItemDAO = new ShopItemDAO();
+        userService = new UserDAO();
+        shopItemService = new ShopItemDAO();
         currentOrder = new ArrayList<>();
         currentSearchResult = new ArrayList<>();
         filteredSearchResult = new ArrayList<>();
@@ -44,7 +46,7 @@ public class ShopModel {
     }
 
     public void loginAuthenticatedUserByUsername(String username) {
-        userLoggedIn = userDAO.findUserByEmail(username);
+        userLoggedIn = userService.findUserByEmail(username);
         notifyUserObservers();
     }
 
@@ -60,14 +62,14 @@ public class ShopModel {
     }
 
     public void searchAll() {
-        currentSearchResult = shopItemDAO.findAll();
+        currentSearchResult = shopItemService.findAll();
         filteredSearchResult = currentSearchResult;
         notifySearchResultObservers();
 
     }
 
     public void searchByName(String name) {
-        currentSearchResult = shopItemDAO.findByName(name);
+        currentSearchResult = shopItemService.findByName(name);
         filteredSearchResult = currentSearchResult;
         notifySearchResultObservers();
     }
@@ -75,7 +77,7 @@ public class ShopModel {
     public void searchBySize(String size) {
         try {
             int sizeInt = Integer.parseInt(size);
-            currentSearchResult = shopItemDAO.findBySize(sizeInt);
+            currentSearchResult = shopItemService.findBySize(sizeInt);
             filteredSearchResult = currentSearchResult;
             notifySearchResultObservers();
         } catch (NumberFormatException e) {
@@ -90,7 +92,7 @@ public class ShopModel {
     public void searchByID(String id) {
         try {
             int idInt = Integer.parseInt(id);
-            currentSearchResult = shopItemDAO.findById(idInt);
+            currentSearchResult = shopItemService.findById(idInt);
             filteredSearchResult = currentSearchResult;
             notifySearchResultObservers();
         } catch (NumberFormatException e) {

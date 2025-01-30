@@ -1,10 +1,11 @@
 package Model.DAO;
 
 import Model.Entity.User;
+import Model.Service.UserService;
 
 import java.sql.*;
 
-public class UserDAO {
+public class UserDAO implements UserService {
 
     private final String datasourceURL;
     private final String datasourceUsername;
@@ -15,7 +16,7 @@ public class UserDAO {
         datasourceUsername = "shopadmin";
         datasourcePassword = "test1234";
     }
-
+    @Override
     public User findUserByEmail(String email) {
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(

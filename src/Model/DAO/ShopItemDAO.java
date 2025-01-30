@@ -2,6 +2,7 @@ package Model.DAO;
 
 import Model.Entity.Category;
 import Model.Entity.ShopItem;
+import Model.Service.ShopItemService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShopItemDAO {
+public class ShopItemDAO implements ShopItemService {
 
     private final String datasourceURL;
     private final String datasourceUsername;
@@ -21,7 +22,7 @@ public class ShopItemDAO {
         datasourcePassword = "test1234";
 
     }
-
+    @Override
     public List<ShopItem> findAll() {
 
         List<ShopItem> items = new ArrayList<>();
@@ -54,7 +55,7 @@ public class ShopItemDAO {
         }
         return items;
     }
-
+    @Override
     public List<ShopItem> findByName(String searchInput) {
         List<ShopItem> items = new ArrayList<>();
 
@@ -89,7 +90,7 @@ public class ShopItemDAO {
         }
         return items;
     }
-
+    @Override
     public List<ShopItem> findById(int id) {
         List<ShopItem> items = new ArrayList<>();
 
@@ -124,7 +125,7 @@ public class ShopItemDAO {
         }
         return items;
     }
-
+    @Override
     public List<ShopItem> findBySize(int size) {
         List<ShopItem> items = new ArrayList<>();
 
