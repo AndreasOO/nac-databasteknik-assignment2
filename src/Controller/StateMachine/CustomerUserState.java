@@ -37,8 +37,9 @@ public class CustomerUserState implements ControllerState {
 
     @Override
     public void addItemToCart() {
-        int shopItemId = Integer.parseInt(view.getSelectedItemInSearchTable());
-        model.addItemToOrder(shopItemId);
+        int rowIndex = view.getSelectedItemInSearchTable();
+        model.addItemToOrder(rowIndex);
+
     }
 
 

@@ -1,4 +1,6 @@
-package Model;
+package Model.DAO;
+
+import Model.Entity.User;
 
 import java.sql.*;
 

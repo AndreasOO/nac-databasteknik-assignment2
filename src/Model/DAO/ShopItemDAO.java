@@ -1,4 +1,7 @@
-package Model;
+package Model.DAO;
+
+import Model.Entity.Category;
+import Model.Entity.ShopItem;
 
 import java.sql.*;
 import java.util.ArrayList;

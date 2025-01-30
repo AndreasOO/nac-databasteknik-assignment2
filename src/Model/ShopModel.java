@@ -1,5 +1,10 @@
 package Model;
 
+import Model.DAO.ShopItemDAO;
+import Model.DAO.UserDAO;
+import Model.Entity.Category;
+import Model.Entity.ShopItem;
+import Model.Entity.User;
 import View.OrderObserver;
 import View.FilterResultObserver;
 import View.SearchResultObserver;
@@ -44,9 +49,8 @@ public class ShopModel {
     }
 
     //TODO redo with stored procedure
-    public void addItemToOrder(int shopItemId) {
-        shopItemPickedForOrder = shopItemDAO.findById(shopItemId).getFirst();
-        currentOrder.add(shopItemPickedForOrder);
+    public void addItemToOrder(int rowIndex) {
+        currentOrder.add(filteredSearchResult.get(rowIndex));
         notifyOrderObservers();
     }
 

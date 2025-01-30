@@ -1,5 +1,4 @@
 import Controller.ShopController;
-import Model.ShopItemDAO;
 import Model.ShopModel;
 
 public class Main {

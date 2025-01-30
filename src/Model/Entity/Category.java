@@ -1,4 +1,4 @@
-package Model;
+package Model.Entity;
 
 public enum Category {
     SANDALS("Sandals"),

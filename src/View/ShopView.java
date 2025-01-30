@@ -1,7 +1,7 @@
 package View;
 
-import Model.Category;
-import Model.ShopItem;
+import Model.Entity.Category;
+import Model.Entity.ShopItem;
 import Model.ShopModel;
 
 import javax.swing.*;
@@ -101,7 +101,6 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         searchResultTableModel = new DefaultTableModel();
         searchResultTable = new JTable(searchResultTableModel);
         searchResultScrollPane = new JScrollPane(searchResultTable);
-        searchResultTableModel.addColumn("ID");
         searchResultTableModel.addColumn("Name");
         searchResultTableModel.addColumn("Brand");
         searchResultTableModel.addColumn("Size");
@@ -120,7 +119,6 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         orderTableModel = new DefaultTableModel();
         orderTable = new JTable(orderTableModel);
         orderTableScrollPane = new JScrollPane(orderTable);
-        orderTableModel.addColumn("ID");
         orderTableModel.addColumn("Name");
         orderTableModel.addColumn("Brand");
         orderTableModel.addColumn("Size");
@@ -253,7 +251,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
 
 
     public void addItemRowToSearchTable(ShopItem shopItem) {
-        searchResultTableModel.addRow(new String[]{String.valueOf(shopItem.getId()),
+        searchResultTableModel.addRow(new String[]{
                                                    shopItem.getName(),
                                                    shopItem.getBrand(),
                                                    String.valueOf(shopItem.getSize()),
@@ -265,7 +263,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
 
 
     public void addItemToOrderTable(ShopItem shopItem) {
-        orderTableModel.addRow(new String[]{String.valueOf(shopItem.getId()),
+        orderTableModel.addRow(new String[]{
                                             shopItem.getName(),
                                             shopItem.getBrand(),
                                             String.valueOf(shopItem.getSize()),
@@ -326,9 +324,8 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     }
 
 
-    public String getSelectedItemInSearchTable() {
-        int row = searchResultTable.getSelectedRow();
-        return searchResultTable.getValueAt(row,0).toString();
+    public int getSelectedItemInSearchTable() {
+        return searchResultTable.getSelectedRow();
     }
 
 

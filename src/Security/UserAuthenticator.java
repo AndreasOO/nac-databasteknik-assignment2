@@ -1,8 +1,5 @@
 package Security;
 
-import Controller.User;
-import Model.ShopItem;
-
 import java.sql.*;
 
 public enum UserAuthenticator {
