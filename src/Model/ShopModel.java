@@ -78,8 +78,8 @@ public class ShopModel {
         notifyOrderObservers();
     }
 
-    public void searchAll() {
-        currentSearchResult = shopItemService.findAll();
+    public void setCurrentSearchResult(List<ShopItem> searchResult) {
+        currentSearchResult = searchResult;
         filteredSearchResult = currentSearchResult;
         notifySearchResultObservers();
 

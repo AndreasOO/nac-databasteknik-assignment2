@@ -43,6 +43,7 @@ public class ShopController {
         });
         view.getLoginButton().addActionListener(e -> {
             state.loginUser();
+            state.setupModelForUser();
             state.updateView();
         });
 

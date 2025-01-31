@@ -1,21 +1,25 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
-import Model.Service.UserService;
-import Model.Service.UserServiceImpl;
+import Model.Service.SearchService;
+import Model.Service.SearchServiceImpl;
 import Model.ShopModel;
 import View.ShopView;
+
+import java.util.ArrayList;
 
 public class CustomerUserState implements ControllerState {
     private final ShopController controller;
     private final ShopView view;
     private final ShopModel model;
+    private final SearchService searchService;
 
 
     public CustomerUserState(ShopController controller, ShopView view, ShopModel model) {
         this.controller = controller;
         this.view = view;
         this.model = model;
+        searchService = new SearchServiceImpl();
 
     }
 
@@ -23,13 +27,18 @@ public class CustomerUserState implements ControllerState {
     public void performSearch() {
         String searchInput = view.getSearchField().getText();
         if (searchInput.isEmpty()) {
-            model.searchAll();
+            model.setCurrentSearchResult(searchService.searchAll());
         }
         else if (view.getRadioButtonItemSize().isSelected()) {
-            model.searchBySize(searchInput);
+            try {
+                int size = Integer.parseInt(searchInput);
+                model.setCurrentSearchResult(searchService.searchBySize(size));
+            } catch (NumberFormatException e) {
+                model.setCurrentSearchResult(new ArrayList<>());
+            }
         }
         else if (view.getRadioButtonItemName().isSelected()) {
-            model.searchByName(searchInput);
+            model.setCurrentSearchResult(searchService.searchByName(searchInput));
         }
     }
 
@@ -65,8 +74,6 @@ public class CustomerUserState implements ControllerState {
     @Override
     public void updateView() {
         view.showCustomerShopView();
-        model.setupActiveOrder();
-        performSearch();
     }
 
     @Override
@@ -80,5 +87,12 @@ public class CustomerUserState implements ControllerState {
         // TODO Add action in model then let gui reset by observers
          model.clearOrder();
          view.resetOrderSummary();
+    }
+
+    @Override
+    public void setupModelForUser() {
+        view.resetSearchParameters();
+        performSearch();
+        model.setupActiveOrder();
     }
 }

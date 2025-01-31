@@ -72,4 +72,9 @@ public class LoginState implements ControllerState {
     public void removeOrder() {
         throw new UnsupportedOperationException("Cannot remove order from logged out state");
     }
+
+    @Override
+    public void setupModelForUser() {
+        throw new UnsupportedOperationException("Cannot setup model from logged out state");
+    }
 }
