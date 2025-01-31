@@ -55,13 +55,8 @@ public class ShopModel {
         notifyUserObservers();
     }
 
-    public void setupActiveOrder() {
-        currentOrder = orderService.findActiveOrderByUserId(userLoggedIn);
-        if (currentOrder == null) {
-            orderService.CreateNewActiveOrder(userLoggedIn);
-            currentOrder = orderService.findActiveOrderByUserId(userLoggedIn);
-            System.out.println(currentOrder + "did not find ac ");
-        }
+    public void setCurrentOrder(Order order) {
+        currentOrder = order;
         notifyOrderObservers();
     }
 

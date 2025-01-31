@@ -93,6 +93,6 @@ public class CustomerUserState implements ControllerState {
     public void setupModelForUser() {
         view.resetSearchParameters();
         performSearch();
-        model.setupActiveOrder();
+        model.setCurrentOrder();
     }
 }
