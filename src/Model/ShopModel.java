@@ -3,6 +3,7 @@ package Model;
 import Model.DAO.OrderDAO;
 import Model.DAO.ShopItemDAO;
 import Model.DAO.UserDAO;
+import Model.Entity.Order.Order;
 import Model.Entity.ShopItem.Category;
 import Model.Entity.ShopItem.ShopItem;
 import Model.Entity.User.User;
@@ -27,7 +28,7 @@ public class ShopModel {
     private final OrderService orderService;
     private User userLoggedIn;
     private ShopItem shopItemPickedForOrder;
-    private List<ShopItem> currentOrder;
+    private Order currentOrder;
     private List<ShopItem> currentSearchResult;
     private List<ShopItem> filteredSearchResult;
 
@@ -40,7 +41,7 @@ public class ShopModel {
         userService = new UserDAO();
         shopItemService = new ShopItemDAO();
         orderService = new OrderDAO();
-        currentOrder = new ArrayList<>();
+        currentOrder = new Order();
         currentSearchResult = new ArrayList<>();
         filteredSearchResult = new ArrayList<>();
         shoppingCartObservers = new ArrayList<>();
@@ -54,16 +55,26 @@ public class ShopModel {
         notifyUserObservers();
     }
 
+    public void setupActiveOrder() {
+        currentOrder = orderService.findActiveOrderByUserId(userLoggedIn);
+        if (currentOrder == null) {
+            orderService.startNewActiveOrder(userLoggedIn);
+            currentOrder = orderService.findActiveOrderByUserId(userLoggedIn);
+            System.out.println(currentOrder + "did not find ac ");
+        }
+        notifyOrderObservers();
+    }
+
     //TODO redo with stored procedure
     public void addItemToOrder(int rowIndex) {
-        currentOrder.add(filteredSearchResult.get(rowIndex));
-        orderService.findActiveOrderByUserId(userLoggedIn.getId());
-        System.out.println(orderService.findActiveOrderByUserId(userLoggedIn.getId()));
+        currentOrder.getOrderItems().add(filteredSearchResult.get(rowIndex));
+        orderService.findActiveOrderByUserId(userLoggedIn);
+        System.out.println(orderService.findActiveOrderByUserId(userLoggedIn));
         notifyOrderObservers();
     }
 
     public void clearOrder() {
-        currentOrder.clear();
+        currentOrder.getOrderItems().clear();
         notifyOrderObservers();
     }
 
@@ -181,8 +192,8 @@ public class ShopModel {
         return filteredSearchResult;
     }
 
-    public List<ShopItem> getCurrentOrder() {
-        return currentOrder;
+    public List<ShopItem> getCurrentOrderItemList() {
+        return currentOrder.getOrderItems();
     }
 
     public User getUserLoggedIn() {
@@ -193,6 +204,6 @@ public class ShopModel {
         shopItemPickedForOrder = null;
         currentSearchResult = new ArrayList<>();
         filteredSearchResult = new ArrayList<>();
-        currentOrder = new ArrayList<>();
+        currentOrder.getOrderItems().clear();
     }
 }

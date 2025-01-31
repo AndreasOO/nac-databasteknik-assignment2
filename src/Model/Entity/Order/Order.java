@@ -4,6 +4,7 @@ import Model.Entity.ShopItem.ShopItem;
 import Model.Entity.User.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -15,7 +16,7 @@ public class Order {
     private List<ShopItem> orderItems;
 
     public Order() {
-
+        orderItems = new ArrayList<>();
     }
 
     public Order(int id, User customer, boolean active, List<ShopItem> orderItems) {
@@ -31,6 +32,11 @@ public class Order {
         this.orderDate = orderDate;
         this.shippingAddress = shippingAddress;
         this.active = active;
+    }
+
+
+    public void addOrderItem(ShopItem shopItem) {
+        orderItems.add(shopItem);
     }
 
     public int getId() {
@@ -51,6 +57,10 @@ public class Order {
 
     public boolean isActive() {
         return active;
+    }
+
+    public List<ShopItem> getOrderItems() {
+        return orderItems;
     }
 
     public void setId(int id) {

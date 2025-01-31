@@ -61,6 +61,7 @@ public class CustomerUserState implements ControllerState {
         view.resetOrderSummary();
         view.showCustomerShopView();
         view.resetSearchParameters();
+        model.setupActiveOrder();
         performSearch();
     }
 

@@ -23,20 +23,17 @@ public class OrderDAO implements OrderService {
 
 
     @Override
-    public Order findActiveOrderByUserId(int userId) {
+    public Order findActiveOrderByUserId(User user) {
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select orders.id, " +
                                 "orders.customer_id, " +
-                                "orders.order_active, " +
-                                "shipping_adresses.zip_code, " +
-                                "shipping_adresses.street " +
+                                "orders.order_active " +
                          "from orders " +
-                         "inner join shipping_adresses ON shipping_adresses.id = orders.shipping_adress_id " +
-                         "where orders.customer_id = ? and orders.order_active = true");
+                         "where orders.customer_id = ? and orders.order_active = 1");
 
         ) {
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(1, user.getId());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return createActiveOrderFromRow(resultSet);
@@ -67,10 +64,9 @@ public class OrderDAO implements OrderService {
         ) {
             preparedStatement.setInt(1, user.getId());
             int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows != 0) {
+            if (affectedRows != 1) {
                 System.out.println("WARNING - Unexpected number of rows affected: " + affectedRows);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,7 +78,7 @@ public class OrderDAO implements OrderService {
     }
 
     private Order createActiveOrderFromRow(ResultSet resultSet) throws SQLException {
-
+        System.out.println("Got to create obj from row");
         UserDAO userDAO = new UserDAO();
         ShopItemDAO shopItemDAO = new ShopItemDAO();
 
