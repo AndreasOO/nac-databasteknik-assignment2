@@ -1,21 +1,19 @@
-package Model.DAO;
+package Model.Entity.Order;
 
-import Model.Entity.Order.Order;
-import Model.Entity.Order.ShippingAddress;
-import Model.Entity.ShopItem.ShopItem;
+import Model.Entity.DAOConfig.ConnectionConfigManager;
+import Model.Entity.ShopItem.ShopItemDAOImpl;
+import Model.Entity.User.UserDAOImpl;
 import Model.Entity.User.User;
-import Model.Service.OrderService;
 
 import java.sql.*;
-import java.util.ArrayList;
 
-public class OrderDAO implements OrderService {
+public class OrderDAOImpl implements OrderDAO {
 
     private final String datasourceURL;
     private final String datasourceUsername;
     private final String datasourcePassword;
 
-    public OrderDAO() {
+    public OrderDAOImpl() {
         datasourceURL = ConnectionConfigManager.getInstance().getDatasourceURL();
         datasourceUsername = ConnectionConfigManager.getInstance().getDatasourceUsername();
         datasourcePassword = ConnectionConfigManager.getInstance().getDatasourcePassword();
@@ -52,12 +50,12 @@ public class OrderDAO implements OrderService {
     }
 
     @Override
-    public void completeOrder(Order order) {
+    public void updateActiveOrder(Order order) {
 
     }
 
     @Override
-    public void startNewActiveOrder(User user){
+    public void CreateNewActiveOrder(User user){
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "insert into orders (customer_id, order_active) values (?, true)");
@@ -78,9 +76,8 @@ public class OrderDAO implements OrderService {
     }
 
     private Order createActiveOrderFromRow(ResultSet resultSet) throws SQLException {
-        System.out.println("Got to create obj from row");
-        UserDAO userDAO = new UserDAO();
-        ShopItemDAO shopItemDAO = new ShopItemDAO();
+        UserDAOImpl userDAO = new UserDAOImpl();
+        ShopItemDAOImpl shopItemDAO = new ShopItemDAOImpl();
 
         int orderId = resultSet.getInt("id");
         int customerId = resultSet.getInt("customer_id");

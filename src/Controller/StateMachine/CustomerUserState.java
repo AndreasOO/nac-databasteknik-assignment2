@@ -1,6 +1,8 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
+import Model.Service.UserService;
+import Model.Service.UserServiceImpl;
 import Model.ShopModel;
 import View.ShopView;
 
@@ -9,10 +11,12 @@ public class CustomerUserState implements ControllerState {
     private final ShopView view;
     private final ShopModel model;
 
+
     public CustomerUserState(ShopController controller, ShopView view, ShopModel model) {
         this.controller = controller;
         this.view = view;
         this.model = model;
+
     }
 
     @Override
@@ -51,16 +55,16 @@ public class CustomerUserState implements ControllerState {
     @Override
     public void logoutUser() {
         model.clearSearchHistory();
+        view.resetSearchTable();
+        view.resetOrderTable();
+        view.resetOrderSummary();
+        view.resetSearchParameters();
         controller.changeToLoginState();
     }
 
     @Override
     public void updateView() {
-        view.resetSearchTable();
-        view.resetOrderTable();
-        view.resetOrderSummary();
         view.showCustomerShopView();
-        view.resetSearchParameters();
         model.setupActiveOrder();
         performSearch();
     }

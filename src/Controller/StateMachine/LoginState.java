@@ -1,6 +1,9 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
+import Model.Entity.User.User;
+import Model.Service.UserService;
+import Model.Service.UserServiceImpl;
 import Model.ShopModel;
 import Security.UserAuthenticator;
 import View.ShopView;
@@ -10,12 +13,15 @@ public class LoginState implements ControllerState {
     private final ShopView view;
     private final ShopModel model;
     private final UserAuthenticator authenticator;
+    private final UserService userService;
+
 
     public LoginState(ShopController controller, ShopView view, ShopModel model) {
         this.controller = controller;
         this.view = view;
         this.model = model;
         authenticator = UserAuthenticator.getInstance();
+        userService = new UserServiceImpl();
     }
 
     @Override
@@ -38,7 +44,8 @@ public class LoginState implements ControllerState {
         String username = view.getInputUsername();
         String password = view.getInputPassword();
         if (authenticator.authenticate(username, password)) {
-            model.loginAuthenticatedUserByUsername(username);
+            model.setUserLoggedIn(userService.getAuthenticatedUserByUsername(username));
+            //TODO call services here to feed model with correct data
             controller.changeToCustomerUserState();
             view.resetLoginForm();
         } else {

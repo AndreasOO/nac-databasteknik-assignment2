@@ -1,9 +1,6 @@
-package Model.DAO;
+package Model.Entity.ShopItem;
 
-import Model.Entity.ShopItem.Category;
-import Model.Entity.ShopItem.ItemColor;
-import Model.Entity.ShopItem.ShopItem;
-import Model.Service.ShopItemService;
+import Model.Entity.DAOConfig.ConnectionConfigManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,13 +8,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShopItemDAO implements ShopItemService {
+public class ShopItemDAOImpl implements ShopItemDAO {
 
     private final String datasourceURL;
     private final String datasourceUsername;
     private final String datasourcePassword;
 
-    public ShopItemDAO() {
+    public ShopItemDAOImpl() {
         datasourceURL = ConnectionConfigManager.getInstance().getDatasourceURL();
         datasourceUsername = ConnectionConfigManager.getInstance().getDatasourceUsername();
         datasourcePassword = ConnectionConfigManager.getInstance().getDatasourcePassword();

@@ -1,15 +1,15 @@
 package Model;
 
-import Model.DAO.OrderDAO;
-import Model.DAO.ShopItemDAO;
-import Model.DAO.UserDAO;
+import Model.Entity.Order.OrderDAOImpl;
+import Model.Entity.ShopItem.ShopItemDAOImpl;
+import Model.Entity.User.UserDAOImpl;
 import Model.Entity.Order.Order;
 import Model.Entity.ShopItem.Category;
 import Model.Entity.ShopItem.ShopItem;
 import Model.Entity.User.User;
-import Model.Service.OrderService;
-import Model.Service.ShopItemService;
-import Model.Service.UserService;
+import Model.Entity.Order.OrderDAO;
+import Model.Entity.ShopItem.ShopItemDAO;
+import Model.Entity.User.UserDAO;
 import View.OrderObserver;
 import View.FilterResultObserver;
 import View.SearchResultObserver;
@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 
 
 public class ShopModel {
-    private final UserService userService;
-    private final ShopItemService shopItemService;
-    private final OrderService orderService;
+    private final UserDAO userService;
+    private final ShopItemDAO shopItemService;
+    private final OrderDAO orderService;
     private User userLoggedIn;
     private ShopItem shopItemPickedForOrder;
     private Order currentOrder;
@@ -38,9 +38,9 @@ public class ShopModel {
     private final List<UserObserver> userObservers;
 
     public ShopModel() {
-        userService = new UserDAO();
-        shopItemService = new ShopItemDAO();
-        orderService = new OrderDAO();
+        userService = new UserDAOImpl();
+        shopItemService = new ShopItemDAOImpl();
+        orderService = new OrderDAOImpl();
         currentOrder = new Order();
         currentSearchResult = new ArrayList<>();
         filteredSearchResult = new ArrayList<>();
@@ -50,15 +50,15 @@ public class ShopModel {
         userObservers = new ArrayList<>();
     }
 
-    public void loginAuthenticatedUserByUsername(String username) {
-        userLoggedIn = userService.findUserByEmail(username);
+    public void setUserLoggedIn(User user) {
+        userLoggedIn = user;
         notifyUserObservers();
     }
 
     public void setupActiveOrder() {
         currentOrder = orderService.findActiveOrderByUserId(userLoggedIn);
         if (currentOrder == null) {
-            orderService.startNewActiveOrder(userLoggedIn);
+            orderService.CreateNewActiveOrder(userLoggedIn);
             currentOrder = orderService.findActiveOrderByUserId(userLoggedIn);
             System.out.println(currentOrder + "did not find ac ");
         }

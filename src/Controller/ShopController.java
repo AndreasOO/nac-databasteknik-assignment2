@@ -1,13 +1,14 @@
 package Controller;
 
 import Controller.StateMachine.*;
+import Model.Entity.User.User;
 import Model.ShopModel;
 import View.ShopView;
 
 public class ShopController {
     private final ShopModel model;
     private final ShopView view;
-    private User userLoggedIn;
+
 
     private ControllerState state;
     private final ControllerState loginState;
@@ -46,7 +47,6 @@ public class ShopController {
         });
 
         view.getLogOutButton().addActionListener(e -> {
-            userLoggedIn = User.NONE;
             state.logoutUser();
             state.updateView();
         });

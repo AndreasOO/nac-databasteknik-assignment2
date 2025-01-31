@@ -1,17 +1,16 @@
-package Model.DAO;
+package Model.Entity.User;
 
-import Model.Entity.User.User;
-import Model.Service.UserService;
+import Model.Entity.DAOConfig.ConnectionConfigManager;
 
 import java.sql.*;
 
-public class UserDAO implements UserService {
+public class UserDAOImpl implements UserDAO {
 
     private final String datasourceURL;
     private final String datasourceUsername;
     private final String datasourcePassword;
 
-    public UserDAO() {
+    public UserDAOImpl() {
         datasourceURL = ConnectionConfigManager.getInstance().getDatasourceURL();
         datasourceUsername = ConnectionConfigManager.getInstance().getDatasourceUsername();
         datasourcePassword = ConnectionConfigManager.getInstance().getDatasourcePassword();

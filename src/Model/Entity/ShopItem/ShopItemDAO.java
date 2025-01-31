@@ -1,10 +1,8 @@
-package Model.Service;
-
-import Model.Entity.ShopItem.ShopItem;
+package Model.Entity.ShopItem;
 
 import java.util.List;
 
-public interface ShopItemService {
+public interface ShopItemDAO {
     List<ShopItem> findAll();
     List<ShopItem> findByName(String searchInput);
     List<ShopItem> findById(int id);
