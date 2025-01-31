@@ -1,6 +1,8 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
+import Model.Service.OrderService;
+import Model.Service.OrderServiceImpl;
 import Model.Service.SearchService;
 import Model.Service.SearchServiceImpl;
 import Model.ShopModel;
@@ -13,6 +15,7 @@ public class CustomerUserState implements ControllerState {
     private final ShopView view;
     private final ShopModel model;
     private final SearchService searchService;
+    private final OrderService orderService;
 
 
     public CustomerUserState(ShopController controller, ShopView view, ShopModel model) {
@@ -20,6 +23,7 @@ public class CustomerUserState implements ControllerState {
         this.view = view;
         this.model = model;
         searchService = new SearchServiceImpl();
+        orderService = new OrderServiceImpl();
 
     }
 
@@ -93,6 +97,6 @@ public class CustomerUserState implements ControllerState {
     public void setupModelForUser() {
         view.resetSearchParameters();
         performSearch();
-        model.setCurrentOrder();
+        model.setCurrentOrder(orderService.setupActiveOrderForUser(model.getUserLoggedIn()));
     }
 }

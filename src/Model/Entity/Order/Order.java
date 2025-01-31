@@ -79,6 +79,10 @@ public class Order {
         this.shippingAddress = shippingAddress;
     }
 
+    public void setOrderItems(List<ShopItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
     public void setActive(boolean active) {
         this.active = active;
     }
