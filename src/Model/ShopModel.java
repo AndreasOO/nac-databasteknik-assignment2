@@ -1,10 +1,12 @@
 package Model;
 
+import Model.DAO.OrderDAO;
 import Model.DAO.ShopItemDAO;
 import Model.DAO.UserDAO;
 import Model.Entity.ShopItem.Category;
 import Model.Entity.ShopItem.ShopItem;
 import Model.Entity.User.User;
+import Model.Service.OrderService;
 import Model.Service.ShopItemService;
 import Model.Service.UserService;
 import View.OrderObserver;
@@ -21,8 +23,9 @@ import java.util.stream.Collectors;
 
 public class ShopModel {
     private final UserService userService;
-    private User userLoggedIn;
     private final ShopItemService shopItemService;
+    private final OrderService orderService;
+    private User userLoggedIn;
     private ShopItem shopItemPickedForOrder;
     private List<ShopItem> currentOrder;
     private List<ShopItem> currentSearchResult;
@@ -36,6 +39,7 @@ public class ShopModel {
     public ShopModel() {
         userService = new UserDAO();
         shopItemService = new ShopItemDAO();
+        orderService = new OrderDAO();
         currentOrder = new ArrayList<>();
         currentSearchResult = new ArrayList<>();
         filteredSearchResult = new ArrayList<>();
@@ -53,6 +57,8 @@ public class ShopModel {
     //TODO redo with stored procedure
     public void addItemToOrder(int rowIndex) {
         currentOrder.add(filteredSearchResult.get(rowIndex));
+        orderService.findActiveOrderByUserId(userLoggedIn.getId());
+        System.out.println(orderService.findActiveOrderByUserId(userLoggedIn.getId()));
         notifyOrderObservers();
     }
 

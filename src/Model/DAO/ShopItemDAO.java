@@ -165,6 +165,46 @@ public class ShopItemDAO implements ShopItemService {
         return items;
     }
 
+    @Override
+    public List<ShopItem> findByOrderId(int orderId) {
+        List<ShopItem> items = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "select shop_items.id, " +
+                             "products.name, " +
+                             "brands.name, " +
+                             "specifications.color, " +
+                             "specifications.size, " +
+                             "group_concat(categories.name separator ',') as category_list , " +
+                             "products.price,  " +
+                             "shop_items.quantity " +
+                             "from shop_items " +
+                             "inner join products ON products.id = shop_items.product_id " +
+                             "inner join specifications ON specifications.id = shop_items.specification_id " +
+                             "inner join brands ON brands.id = products.brand_id " +
+                             "inner join products_categories ON products_categories.product_id = products.id " +
+                             "inner join categories ON categories.id = products_categories.category_id " +
+                             "inner join order_items ON order_items.shop_item_id = shop_items.id " +
+                             "inner join orders ON orders.id = order_items.order_id " +
+
+                             "where orders.id = ? " +
+                             "group by shop_items.id")
+        ) {
+            preparedStatement.setInt(1, orderId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                    items.add(shopItem);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
     private ShopItem createShopItemFromResultRow(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("shop_items.id");
         String productName = resultSet.getString("products.name");

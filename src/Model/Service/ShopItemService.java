@@ -9,4 +9,5 @@ public interface ShopItemService {
     List<ShopItem> findByName(String searchInput);
     List<ShopItem> findById(int id);
     List<ShopItem> findBySize(int size);
+    List<ShopItem> findByOrderId(int orderId);
 }

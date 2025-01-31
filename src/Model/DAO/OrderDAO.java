@@ -1,10 +1,13 @@
 package Model.DAO;
 
 import Model.Entity.Order.Order;
+import Model.Entity.Order.ShippingAddress;
 import Model.Entity.ShopItem.ShopItem;
+import Model.Entity.User.User;
 import Model.Service.OrderService;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class OrderDAO implements OrderService {
 
@@ -24,19 +27,23 @@ public class OrderDAO implements OrderService {
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select orders.id, " +
-                             "zip_code.shipping_adresses, " +
-                             //TODO add rest of columns and joins
-                             "from orders " +
-                             "inner join shipping_adresses ON shipping_adresses.id = orders.shipping_adresses_id " +
-                             "where customers.id = ? and orders.active = true");
+                                "orders.customer_id, " +
+                                "orders.order_active, " +
+                                "shipping_adresses.zip_code, " +
+                                "shipping_adresses.street " +
+                         "from orders " +
+                         "inner join shipping_adresses ON shipping_adresses.id = orders.shipping_adress_id " +
+                         "where orders.customer_id = ? and orders.order_active = true");
+
         ) {
             preparedStatement.setInt(1, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    //TODO Replace with factory method
-                    int orderId = resultSet.getInt("id");
+                    return createActiveOrderFromRow(resultSet);
+
                 } else {
                     //TODO check logic with SP
+                    System.out.println("No active order found");
                     return null;
                 }
             }
@@ -51,4 +58,45 @@ public class OrderDAO implements OrderService {
     public void completeOrder(Order order) {
 
     }
+
+    @Override
+    public void startNewActiveOrder(User user){
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "insert into orders (customer_id, order_active) values (?, true)");
+        ) {
+            preparedStatement.setInt(1, user.getId());
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows != 0) {
+                System.out.println("WARNING - Unexpected number of rows affected: " + affectedRows);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removeOrder(Order order) {
+
+    }
+
+    private Order createActiveOrderFromRow(ResultSet resultSet) throws SQLException {
+
+        UserDAO userDAO = new UserDAO();
+        ShopItemDAO shopItemDAO = new ShopItemDAO();
+
+        int orderId = resultSet.getInt("id");
+        int customerId = resultSet.getInt("customer_id");
+        boolean active = resultSet.getBoolean("order_active");
+
+        return new Order(orderId,
+                         userDAO.findUserById(customerId),
+                         active,
+                         shopItemDAO.findByOrderId(orderId));
+    }
+
+
+
+
 }

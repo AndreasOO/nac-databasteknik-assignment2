@@ -4,4 +4,5 @@ import Model.Entity.User.User;
 
 public interface UserService {
     User findUserByEmail(String email);
+    User findUserById(int email);
 }
