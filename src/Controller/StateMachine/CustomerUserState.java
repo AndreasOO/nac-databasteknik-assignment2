@@ -1,6 +1,7 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
+import Model.Entity.Order.ShippingAddress;
 import Model.Service.OrderService;
 import Model.Service.OrderServiceImpl;
 import Model.Service.SearchService;
@@ -82,9 +83,32 @@ public class CustomerUserState implements ControllerState {
 
     @Override
     public void completeOrder() {
+        String street = view.getOrderSummaryShippingAddressTextField().getText();
+        String zipCode = view.getOrderSummaryZipCodeTextField().getText();
+        try {
+            validateShippingInput(street, zipCode);
+        } catch (Exception e) {
+            view.showGeneralErrorMessage(e.getMessage());
+        }
+
+        orderService.completeActiveOrder(new ShippingAddress(Integer.parseInt(zipCode), street));
+
         // TODO Add action in model
         System.out.println("Order completed");
     }
+
+    private void validateShippingInput(String street, String zipCode) throws Exception {
+        if (street == null || street.isEmpty() || zipCode == null || zipCode.isEmpty()) {
+            throw new IllegalArgumentException("Shipping address fields cannot be empty");
+        }
+        if (!zipCode.trim().matches("[0-9]{6}")) {
+            throw new IllegalArgumentException("Zip Code must contain 6 digits");
+        }
+        if (zipCode.charAt(0) == '0') {
+            throw new IllegalArgumentException("Zip Code cannot start with 0");
+        }
+    }
+
 
     @Override
     public void removeOrder() {

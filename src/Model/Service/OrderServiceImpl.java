@@ -1,9 +1,6 @@
 package Model.Service;
 
-import Model.Entity.Order.Order;
-import Model.Entity.Order.OrderDAO;
-import Model.Entity.Order.OrderDAOImpl;
-import Model.Entity.Order.OrderDTO;
+import Model.Entity.Order.*;
 import Model.Entity.ShopItem.ShopItemDAO;
 import Model.Entity.ShopItem.ShopItemDAOImpl;
 import Model.Entity.User.User;
@@ -22,28 +19,33 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    @Override
+    public void completeActiveOrder(ShippingAddress shippingAddress) {
+        //TODO FIX SHIP ADR ENTITY AND DAO, CREATE AND SET TO CURRENT ORDER
+    }
+
 
 
     @Override
     public Order setupActiveOrderForUser(User user) {
         OrderDTO orderDTO = orderDAO.findActiveOrderDTOByUserId(user);
 
-
         if (orderDTO == null) {
-            orderDAO.createNewActiveOrder(user);
+            orderDAO.createNewActiveOrderForUser(user);
             orderDTO = orderDAO.findActiveOrderDTOByUserId(user);
-            return createOrderFromDTO(orderDTO);
+            return createActiveOrderFromDTO(orderDTO);
 
         } else {
-            return createOrderFromDTO(orderDTO);
+            return createActiveOrderFromDTO(orderDTO);
         }
     }
 
-    private Order createOrderFromDTO(OrderDTO orderDTO) {
+    private Order createActiveOrderFromDTO(OrderDTO orderDTO) {
         Order order = new Order();
         order.setId(orderDTO.getId());
         order.setCustomer(userDAO.findUserById(orderDTO.getCustomerId()));
         order.setActive(orderDTO.isActive());
+        //TODO FIX SHOP ITEM != ORDER ITEM
         order.setOrderItems(shopItemDAO.findByOrderId(orderDTO.getId()));
         return order;
     }

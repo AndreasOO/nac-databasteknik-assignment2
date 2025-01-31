@@ -34,7 +34,7 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setInt(1, user.getId());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return createActiveOrderDTOFromRow(resultSet);
+                    return getActiveOrderDTOFromRow(resultSet);
 
                 } else {
                     //TODO check logic with SP
@@ -49,34 +49,6 @@ public class OrderDAOImpl implements OrderDAO {
         return null;
     }
 
-    @Override
-    public Order findActiveOrderByUserId(User user) {
-        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
-             PreparedStatement preparedStatement = connection.prepareStatement(
-                     "select orders.id, " +
-                                "orders.customer_id, " +
-                                "orders.order_active " +
-                         "from orders " +
-                         "where orders.customer_id = ? and orders.order_active = 1");
-
-        ) {
-            preparedStatement.setInt(1, user.getId());
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return createActiveOrderFromRow(resultSet);
-
-                } else {
-                    //TODO check logic with SP
-                    System.out.println("No active order found");
-                    return null;
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     @Override
     public void updateActiveOrder(Order order) {
@@ -84,7 +56,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void createNewActiveOrder(User user){
+    public void createNewActiveOrderForUser(User user){
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "insert into orders (customer_id, order_active) values (?, true)");
@@ -104,24 +76,8 @@ public class OrderDAOImpl implements OrderDAO {
 
     }
 
-    private Order createActiveOrderFromRow(ResultSet resultSet) throws SQLException {
-        UserDAOImpl userDAO = new UserDAOImpl();
-        ShopItemDAOImpl shopItemDAO = new ShopItemDAOImpl();
 
-        int orderId = resultSet.getInt("id");
-        int customerId = resultSet.getInt("customer_id");
-        boolean active = resultSet.getBoolean("order_active");
-
-        return new Order(orderId,
-                         userDAO.findUserById(customerId),
-                         active,
-                         shopItemDAO.findByOrderId(orderId));
-    }
-
-
-    private OrderDTO createActiveOrderDTOFromRow(ResultSet resultSet) throws SQLException {
-        UserDAOImpl userDAO = new UserDAOImpl();
-        ShopItemDAOImpl shopItemDAO = new ShopItemDAOImpl();
+    private OrderDTO getActiveOrderDTOFromRow(ResultSet resultSet) throws SQLException {
 
         int orderId = resultSet.getInt("id");
         int customerId = resultSet.getInt("customer_id");

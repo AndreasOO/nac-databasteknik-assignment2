@@ -63,8 +63,6 @@ public class ShopModel {
     //TODO redo with stored procedure
     public void addItemToOrder(int rowIndex) {
         currentOrder.getOrderItems().add(filteredSearchResult.get(rowIndex));
-        orderService.findActiveOrderByUserId(userLoggedIn);
-        System.out.println(orderService.findActiveOrderByUserId(userLoggedIn));
         notifyOrderObservers();
     }
 

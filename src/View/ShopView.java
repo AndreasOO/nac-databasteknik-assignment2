@@ -354,6 +354,14 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         return addToOrderButton;
     }
 
+    public TextField getOrderSummaryZipCodeTextField() {
+        return orderSummaryZipCodeTextField;
+    }
+
+    public TextField getOrderSummaryShippingAddressTextField() {
+        return orderSummaryShippingAddressTextField;
+    }
+
     public JButton getRemoveOrderButton() {
         return orderSummaryRemoveOrderButton;
     }
@@ -383,6 +391,10 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
 
     public void showLoginErrorMessage() {
         JOptionPane.showMessageDialog(frame, "Incorrect username or password, please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showGeneralErrorMessage(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 }
