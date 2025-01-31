@@ -1,5 +1,6 @@
 package Model.Entity.Order;
 
+import Model.Entity.ShippingAddress.ShippingAddress;
 import Model.Entity.ShopItem.ShopItem;
 import Model.Entity.User.User;
 

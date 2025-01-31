@@ -1,9 +1,7 @@
 package Model.Service;
 
 import Model.Entity.Order.Order;
-import Model.Entity.Order.ShippingAddress;
-import Model.Entity.ShopItem.ShopItemDAO;
-import Model.Entity.ShopItem.ShopItemDAOImpl;
+import Model.Entity.ShippingAddress.ShippingAddress;
 import Model.Entity.User.User;
 
 public interface OrderService {

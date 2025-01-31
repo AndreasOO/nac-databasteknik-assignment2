@@ -1,7 +1,7 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
-import Model.Entity.Order.ShippingAddress;
+import Model.Entity.ShippingAddress.ShippingAddress;
 import Model.Service.OrderService;
 import Model.Service.OrderServiceImpl;
 import Model.Service.SearchService;

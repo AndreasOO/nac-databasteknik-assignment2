@@ -45,7 +45,7 @@ public class ShopItemDAOImpl implements ShopItemDAO {
              )
         {
             while (resultSet.next()) {
-                ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                ShopItem shopItem = getShopItemFromResultRow(resultSet);
                 items.add(shopItem);
             }
         } catch (SQLException e) {
@@ -79,7 +79,7 @@ public class ShopItemDAOImpl implements ShopItemDAO {
             preparedStatement.setString(1, "%"+searchInput+"%");
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                    ShopItem shopItem = getShopItemFromResultRow(resultSet);
                     items.add(shopItem);
                 }
         }
@@ -115,7 +115,7 @@ public class ShopItemDAOImpl implements ShopItemDAO {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                    ShopItem shopItem = getShopItemFromResultRow(resultSet);
                     items.add(shopItem);
                 }
             }
@@ -151,7 +151,7 @@ public class ShopItemDAOImpl implements ShopItemDAO {
             preparedStatement.setInt(1, size);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                    ShopItem shopItem = getShopItemFromResultRow(resultSet);
                     items.add(shopItem);
                 }
             }
@@ -191,7 +191,7 @@ public class ShopItemDAOImpl implements ShopItemDAO {
             preparedStatement.setInt(1, orderId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    ShopItem shopItem = createShopItemFromResultRow(resultSet);
+                    ShopItem shopItem = getShopItemFromResultRow(resultSet);
                     items.add(shopItem);
                 }
             }
@@ -202,7 +202,8 @@ public class ShopItemDAOImpl implements ShopItemDAO {
         return items;
     }
 
-    private ShopItem createShopItemFromResultRow(ResultSet resultSet) throws SQLException {
+    //TODO REFACTOR WITH DTO PATTERN IN SERVICE
+    private ShopItem getShopItemFromResultRow(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("shop_items.id");
         String productName = resultSet.getString("products.name");
         String brandName = resultSet.getString("brands.name");

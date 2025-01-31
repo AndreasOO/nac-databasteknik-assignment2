@@ -1,6 +1,7 @@
-package Model.Entity.Order;
+package Model.Entity.ShippingAddress;
 
 public class ShippingAddress {
+    private int id;
     private final int zipCode;
     private final String street;
 
@@ -9,11 +10,21 @@ public class ShippingAddress {
         this.street = street;
     }
 
+    public ShippingAddress(int zipCode, String street, int id) {
+        this.zipCode = zipCode;
+        this.street = street;
+        this.id = id;
+    }
+
     public int getZipCode() {
         return zipCode;
     }
 
     public String getStreet() {
         return street;
+    }
+
+    public int getId() {
+        return id;
     }
 }
