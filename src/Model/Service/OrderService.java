@@ -6,5 +6,5 @@ import Model.Entity.User.User;
 
 public interface OrderService {
     Order setupActiveOrderForUser(User user);
-    void completeActiveOrder(ShippingAddress shippingAddress);
+    void completeActiveOrder(Order order, ShippingAddress shippingAddress);
 }

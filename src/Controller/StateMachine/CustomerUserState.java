@@ -85,24 +85,27 @@ public class CustomerUserState implements ControllerState {
     public void completeOrder() {
         String street = view.getOrderSummaryShippingAddressTextField().getText();
         String zipCode = view.getOrderSummaryZipCodeTextField().getText();
+        System.out.println("street = " + street);
+        System.out.println("zipCode = " + zipCode);
         try {
-            validateShippingInput(street, zipCode);
+            validateShippingInput(zipCode,street );
         } catch (Exception e) {
             view.showGeneralErrorMessage(e.getMessage());
+            return;
         }
 
-        orderService.completeActiveOrder(new ShippingAddress(Integer.parseInt(zipCode), street));
+        orderService.completeActiveOrder(model.getCurrentOrder(), new ShippingAddress(Integer.parseInt(zipCode), street));
 
         // TODO Add action in model
         System.out.println("Order completed");
     }
 
-    private void validateShippingInput(String street, String zipCode) throws Exception {
+    private void validateShippingInput(String zipCode, String street) throws Exception {
         if (street == null || street.isEmpty() || zipCode == null || zipCode.isEmpty()) {
             throw new IllegalArgumentException("Shipping address fields cannot be empty");
         }
-        if (!zipCode.trim().matches("[0-9]{6}")) {
-            throw new IllegalArgumentException("Zip Code must contain 6 digits");
+        if (!zipCode.trim().matches("^[0-9]{5}$")) {
+            throw new IllegalArgumentException("Zip Code must contain 5 digits");
         }
         if (zipCode.charAt(0) == '0') {
             throw new IllegalArgumentException("Zip Code cannot start with 0");

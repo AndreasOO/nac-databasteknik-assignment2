@@ -189,6 +189,10 @@ public class ShopModel {
         return currentOrder.getOrderItems();
     }
 
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
     public User getUserLoggedIn() {
         return userLoggedIn;
     }

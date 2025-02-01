@@ -52,7 +52,25 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public void updateActiveOrder(Order order) {
+        System.out.println("Updating active order" + order);
+        System.out.println("Shipping id: " + order.getShippingAddress().getId());
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "update orders set order_date = ?, shipping_adress_id = ?, order_active = ? " +
+                             "where id = ?");
+        ) {
+            preparedStatement.setDate(1, java.sql.Date.valueOf(order.getOrderDate()));
+            preparedStatement.setInt(2,order.getShippingAddress().getId());
+            preparedStatement.setBoolean(3,order.isActive());
+            preparedStatement.setInt(4,order.getId());
+            int affectedRows = preparedStatement.executeUpdate();
 
+            if (affectedRows != 1) {
+                System.out.println("WARNING - Unexpected number of rows affected: " + affectedRows);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

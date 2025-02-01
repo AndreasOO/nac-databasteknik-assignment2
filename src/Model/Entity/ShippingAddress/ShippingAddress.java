@@ -10,7 +10,7 @@ public class ShippingAddress {
         this.street = street;
     }
 
-    public ShippingAddress(int zipCode, String street, int id) {
+    public ShippingAddress(int id, String street, int zipCode) {
         this.zipCode = zipCode;
         this.street = street;
         this.id = id;
