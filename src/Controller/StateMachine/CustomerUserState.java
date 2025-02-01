@@ -98,6 +98,8 @@ public class CustomerUserState implements ControllerState {
 
         // TODO Add action in model
         System.out.println("Order completed");
+        model.setCurrentOrder(orderService.setupActiveOrderForUser(model.getUserLoggedIn()));
+        System.out.println("New order set up");
     }
 
     private void validateShippingInput(String zipCode, String street) throws Exception {
