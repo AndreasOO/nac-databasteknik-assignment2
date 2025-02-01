@@ -1,7 +1,9 @@
 package Model.Entity.ShippingAddress;
 
+import java.util.Optional;
+
 public interface ShippingAddressDAO {
-    ShippingAddress findShippingAddressByID(int id);
-    ShippingAddress findShippingAddressByZipCodeAndStreet(ShippingAddress shippingAddress);
+    Optional<ShippingAddress> findShippingAddressByID(int id);
+    Optional<ShippingAddress> findShippingAddressByZipCodeAndStreet(ShippingAddress shippingAddress);
     void createShippingAddress(ShippingAddress shippingAddress);
 }

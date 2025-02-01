@@ -4,6 +4,7 @@ import Model.Entity.DAOConfig.ConnectionConfigManager;
 import Model.Entity.Order.OrderDTO;
 
 import java.sql.*;
+import java.util.Optional;
 
 public class ShippingAddressDAOImpl implements ShippingAddressDAO {
 
@@ -20,7 +21,8 @@ public class ShippingAddressDAOImpl implements ShippingAddressDAO {
 
 
     @Override
-    public ShippingAddress findShippingAddressByID(int id) {
+    public Optional<ShippingAddress> findShippingAddressByID(int id) {
+        Optional<ShippingAddress> shippingAddressOptional = Optional.empty();
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select shipping_adresses.id, " +
@@ -33,21 +35,19 @@ public class ShippingAddressDAOImpl implements ShippingAddressDAO {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return getShippingAddressFromRow(resultSet);
-
-                } else {
-                    return null;
+                    return Optional.of(getShippingAddressFromRow(resultSet));
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return shippingAddressOptional;
     }
 
     @Override
-    public ShippingAddress findShippingAddressByZipCodeAndStreet(ShippingAddress shippingAddress) {
+    public Optional<ShippingAddress> findShippingAddressByZipCodeAndStreet(ShippingAddress shippingAddress) {
+        Optional<ShippingAddress> shippingAddressOptional = Optional.empty();
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select shipping_adresses.id, " +
@@ -62,17 +62,14 @@ public class ShippingAddressDAOImpl implements ShippingAddressDAO {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return getShippingAddressFromRow(resultSet);
-
-                } else {
-                    return null;
+                    return Optional.of(getShippingAddressFromRow(resultSet));
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return shippingAddressOptional;
     }
 
 
