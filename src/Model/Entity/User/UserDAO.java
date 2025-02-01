@@ -1,6 +1,8 @@
 package Model.Entity.User;
 
+import java.util.Optional;
+
 public interface UserDAO {
-    User findUserByEmail(String email);
-    User findUserById(int email);
+    Optional<User> findUserByEmail(String email);
+    Optional<User> findUserById(int email);
 }

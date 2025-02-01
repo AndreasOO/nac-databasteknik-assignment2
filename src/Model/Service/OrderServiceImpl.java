@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     private Order createActiveOrderFromDTO(OrderDTO orderDTO) {
         Order order = new Order();
         order.setId(orderDTO.getId());
-        order.setCustomer(userDAO.findUserById(orderDTO.getCustomerId()));
+        order.setCustomer(userDAO.findUserById(orderDTO.getCustomerId()).orElseThrow());
         order.setActive(orderDTO.isActive());
         //TODO FIX SHOP ITEM != ORDER ITEM
         order.setOrderItems(shopItemDAO.findByOrderId(orderDTO.getId()));

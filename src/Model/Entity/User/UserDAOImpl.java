@@ -1,8 +1,10 @@
 package Model.Entity.User;
 
 import Model.Entity.DAOConfig.ConnectionConfigManager;
+import Model.Entity.ShippingAddress.ShippingAddress;
 
 import java.sql.*;
+import java.util.Optional;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -16,7 +18,8 @@ public class UserDAOImpl implements UserDAO {
         datasourcePassword = ConnectionConfigManager.getInstance().getDatasourcePassword();
     }
     @Override
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
+        Optional<User> user = Optional.empty();
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select customers.id, customers.email, customers.name " +
@@ -27,20 +30,19 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(1, email);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return  new User(resultSet.getInt("id"), resultSet.getString("email"), resultSet.getString("name"));
-                } else {
-                    throw new SQLException("User not found");
+                    return Optional.of(getUserFromRow(resultSet));
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
     }
 
     @Override
-    public User findUserById(int id) {
+    public Optional<User> findUserById(int id) {
+        Optional<User> user = Optional.empty();
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select customers.id, customers.email, customers.name " +
@@ -51,15 +53,23 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return  new User(resultSet.getInt("id"), resultSet.getString("email"), resultSet.getString("name"));
-                } else {
-                    throw new SQLException("User not found");
+                    return Optional.of(getUserFromRow(resultSet));
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
+    }
+
+
+    private User getUserFromRow(ResultSet resultSet) throws SQLException {
+
+        int id = resultSet.getInt("customers.id");
+        String email = resultSet.getString("customers.email");
+        String name = resultSet.getString("customers.name");
+
+        return new User(id, email, name);
     }
 }

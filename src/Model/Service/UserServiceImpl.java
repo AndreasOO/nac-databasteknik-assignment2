@@ -13,6 +13,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getAuthenticatedUserByUsername(String username) {
-        return userDAO.findUserByEmail(username);
+        return userDAO.findUserByEmail(username).orElseThrow();
     }
 }
