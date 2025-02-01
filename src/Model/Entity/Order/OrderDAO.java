@@ -2,9 +2,11 @@ package Model.Entity.Order;
 
 import Model.Entity.User.User;
 
+import java.util.Optional;
+
 public interface OrderDAO {
 
-    OrderDTO findActiveOrderDTOByUserId(User user);
+    Optional<OrderDTO> findActiveOrderDTOByUserId(User user);
     void updateActiveOrder(Order order);
     void createNewActiveOrderForUser(User user);
     void removeOrder(Order order);

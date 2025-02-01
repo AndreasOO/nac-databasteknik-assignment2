@@ -11,6 +11,7 @@ import Model.Entity.User.UserDAO;
 import Model.Entity.User.UserDAOImpl;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class OrderServiceImpl implements OrderService {
     ShopItemDAO shopItemDAO;
@@ -45,15 +46,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order setupActiveOrderForUser(User user) {
-        OrderDTO orderDTO = orderDAO.findActiveOrderDTOByUserId(user);
+        Optional<OrderDTO> orderDTOOptional = orderDAO.findActiveOrderDTOByUserId(user);
 
-        if (orderDTO == null) {
+        if (orderDTOOptional.isEmpty()) {
             orderDAO.createNewActiveOrderForUser(user);
-            orderDTO = orderDAO.findActiveOrderDTOByUserId(user);
+            OrderDTO orderDTO = orderDAO.findActiveOrderDTOByUserId(user).orElseThrow();
             return createActiveOrderFromDTO(orderDTO);
 
         } else {
-            return createActiveOrderFromDTO(orderDTO);
+            return createActiveOrderFromDTO(orderDTOOptional.get());
         }
     }
 

@@ -6,6 +6,7 @@ import Model.Entity.User.UserDAOImpl;
 import Model.Entity.User.User;
 
 import java.sql.*;
+import java.util.Optional;
 
 public class OrderDAOImpl implements OrderDAO {
 
@@ -20,7 +21,8 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public OrderDTO findActiveOrderDTOByUserId(User user) {
+    public Optional<OrderDTO> findActiveOrderDTOByUserId(User user) {
+        Optional<OrderDTO> orderDTOOptional= Optional.empty();
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select orders.id, " +
@@ -34,19 +36,14 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setInt(1, user.getId());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return getActiveOrderDTOFromRow(resultSet);
-
-                } else {
-                    //TODO check logic with SP
-                    System.out.println("No active order found");
-                    return null;
+                    return Optional.of(getActiveOrderDTOFromRow(resultSet));
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return orderDTOOptional;
     }
 
 
