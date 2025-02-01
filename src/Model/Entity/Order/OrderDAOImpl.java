@@ -52,8 +52,6 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public void updateActiveOrder(Order order) {
-        System.out.println("Updating active order" + order);
-        System.out.println("Shipping id: " + order.getShippingAddress().getId());
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "update orders set order_date = ?, shipping_adress_id = ?, order_active = ? " +
@@ -90,6 +88,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    //TODO REMOVE ORDER ONLY AND ORDER ITEMS SHOULD BE DELETED ON CASCADE
     public void removeOrder(Order order) {
 
     }

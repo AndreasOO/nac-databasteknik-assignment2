@@ -85,8 +85,6 @@ public class CustomerUserState implements ControllerState {
     public void completeOrder() {
         String street = view.getOrderSummaryShippingAddressTextField().getText();
         String zipCode = view.getOrderSummaryZipCodeTextField().getText();
-        System.out.println("street = " + street);
-        System.out.println("zipCode = " + zipCode);
         try {
             validateShippingInput(zipCode,street );
         } catch (Exception e) {
