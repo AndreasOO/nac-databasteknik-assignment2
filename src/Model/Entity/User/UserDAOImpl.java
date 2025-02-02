@@ -1,7 +1,6 @@
 package Model.Entity.User;
 
-import Model.Entity.DAOConfig.ConnectionConfigManager;
-import Model.Entity.ShippingAddress.ShippingAddress;
+import Configuration.DAOConfig.ConnectionConfigManager;
 
 import java.sql.*;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package Model.Entity.DAOConfig;
+package Configuration.DAOConfig;
 
 import java.io.FileInputStream;
 import java.io.IOException;

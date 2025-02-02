@@ -1,6 +1,6 @@
 package Model.Entity.Brand;
 
-import Model.Entity.DAOConfig.ConnectionConfigManager;
+import Configuration.DAOConfig.ConnectionConfigManager;
 
 import java.sql.*;
 import java.util.Optional;

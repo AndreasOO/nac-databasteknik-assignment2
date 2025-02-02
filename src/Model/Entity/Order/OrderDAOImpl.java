@@ -1,8 +1,6 @@
 package Model.Entity.Order;
 
-import Model.Entity.DAOConfig.ConnectionConfigManager;
-import Model.Entity.ShopItem.ShopItemDAOImpl;
-import Model.Entity.User.UserDAOImpl;
+import Configuration.DAOConfig.ConnectionConfigManager;
 import Model.Entity.User.User;
 
 import java.sql.*;
