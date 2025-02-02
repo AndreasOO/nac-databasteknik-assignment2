@@ -21,7 +21,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Optional<ProductDTO> findProductDTOByID(int id) {
-        Optional<ProductDTO> specificationOptional = Optional.empty();
+        Optional<ProductDTO> productDTOOptional = Optional.empty();
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select products.id, " +
@@ -43,7 +43,7 @@ public class ProductDAOImpl implements ProductDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return specificationOptional;
+        return productDTOOptional;
     }
 
 
