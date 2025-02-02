@@ -33,7 +33,7 @@ public class ProductTypeDAOImpl implements ProductTypeDAO {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return Optional.of(getBrandFromRow(resultSet));
+                    return Optional.of(getProductTypeFromRow(resultSet));
                 }
             }
 
@@ -47,7 +47,7 @@ public class ProductTypeDAOImpl implements ProductTypeDAO {
 
 
 
-    private ProductType getBrandFromRow(ResultSet resultSet) throws SQLException {
+    private ProductType getProductTypeFromRow(ResultSet resultSet) throws SQLException {
 
         int id = resultSet.getInt("product_types.id");
         String name = resultSet.getString("product_types.name");
