@@ -22,4 +22,13 @@ public class Specification {
     public int getSize() {
         return size;
     }
+
+    @Override
+    public String toString() {
+        return "Specification{" +
+                "id=" + id +
+                ", color='" + color + '\'' +
+                ", size=" + size +
+                '}';
+    }
 }

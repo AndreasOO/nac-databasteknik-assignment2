@@ -27,4 +27,13 @@ public class ShippingAddress {
     public int getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "ShippingAddress{" +
+                "id=" + id +
+                ", zipCode=" + zipCode +
+                ", street='" + street + '\'' +
+                '}';
+    }
 }

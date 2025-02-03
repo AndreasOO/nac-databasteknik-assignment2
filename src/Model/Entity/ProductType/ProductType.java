@@ -16,4 +16,12 @@ public class ProductType {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "ProductType{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -16,4 +16,12 @@ public class Brand {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
