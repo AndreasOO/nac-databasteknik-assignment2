@@ -1,7 +1,7 @@
 package Model.Entity.Product;
 
 import Model.Entity.Brand.Brand;
-import Model.Entity.Category.Category;
+import Model.Entity.Category.Category2;
 import Model.Entity.ProductType.ProductType;
 
 import java.util.List;
@@ -12,9 +12,9 @@ public class Product {
     private final int price;
     private final Brand brand;
     private final ProductType productType;
-    private final List<Category> categories;
+    private final List<Category2> categories;
 
-    public Product(int id, String name, int price, Brand brand, ProductType productType, List<Category> categories) {
+    public Product(int id, String name, int price, Brand brand, ProductType productType, List<Category2> categories) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -43,9 +43,19 @@ public class Product {
         return productType;
     }
 
-    public List<Category> getCategories() {
+    public List<Category2> getCategories() {
         return categories;
     }
 
-    //TODO FINISH WHEN OTHER ENTITY CLASSES FOR BRAND, CATEGORY AND PRODUCT TYPE ARE DONE
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", brand=" + brand +
+                ", productType=" + productType +
+                ", categories=" + categories +
+                '}';
+    }
 }

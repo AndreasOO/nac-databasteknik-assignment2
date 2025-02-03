@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ShopItemDAOImpl implements ShopItemDAO {
@@ -52,6 +53,35 @@ public class ShopItemDAOImpl implements ShopItemDAO {
             e.printStackTrace();
         }
         return items;
+    }
+
+    @Override
+    public Optional<List<ShopItemDTO>> findAllDTO() {
+        Optional<List<ShopItemDTO>> shopItemDTOsOptional= Optional.empty();
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "select shop_items.id, " +
+                             "shop_items.product_id, " +
+                             "shop_items.specification_id, " +
+                             "shop_items.quantity " +
+                             "from shop_items"
+             );
+             ResultSet resultSet = preparedStatement.executeQuery()
+        )
+        {
+            List<ShopItemDTO> shopItemDTOs = new ArrayList<>();
+            while (resultSet.next()) {
+                shopItemDTOs.add(getShopItemDTOFromResultRow(resultSet));
+            }
+            if (shopItemDTOs.isEmpty()) {
+                return Optional.empty();
+            } else {
+                return Optional.of(shopItemDTOs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return shopItemDTOsOptional;
     }
     @Override
     public List<ShopItem> findByName(String searchInput) {
@@ -227,5 +257,17 @@ public class ShopItemDAOImpl implements ShopItemDAO {
 
     private Category categoryStrToEnumMatcher(String categoryString) {
         return Arrays.stream(Category.values()).filter(cat -> cat.getDisplayName().equalsIgnoreCase(categoryString)).findFirst().orElse(null);
+    }
+
+
+
+    private ShopItemDTO getShopItemDTOFromResultRow(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("shop_items.id");
+        int productId = resultSet.getInt("shop_items.product_id");
+        int specificationId = resultSet.getInt("shop_items.specification_id");
+        int quantity = resultSet.getInt("shop_items.quantity");
+
+
+        return new ShopItemDTO(id, productId, specificationId, quantity);
     }
 }

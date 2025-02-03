@@ -24,10 +24,10 @@ public class BrandDAOImpl implements BrandDAO {
         Optional<Brand> brandOptional = Optional.empty();
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "select brand.id, " +
-                             "brand.name " +
-                             "from brand " +
-                             "where brand.id = ?");
+                     "select brands.id, " +
+                             "brands.name " +
+                             "from brands " +
+                             "where brands.id = ?");
 
         ) {
             preparedStatement.setInt(1, id);

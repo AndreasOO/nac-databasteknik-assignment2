@@ -22,8 +22,8 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 
     @Override
-    public Optional<List<Category>> findCategoryByProductID(int productId) {
-        Optional<List<Category>> categoryOptional = Optional.empty();
+    public Optional<List<Category2>> findCategoryByProductID(int productId) {
+        Optional<List<Category2>> categoryOptional = Optional.empty();
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select categories.id, " +
@@ -35,7 +35,7 @@ public class CategoryDAOImpl implements CategoryDAO {
         ) {
 
             preparedStatement.setInt(1, productId);
-            List<Category> categories = new ArrayList<>();
+            List<Category2> categories = new ArrayList<>();
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     categories.add(getCategoryFromRow(resultSet));
@@ -57,11 +57,11 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 
 
-    private Category getCategoryFromRow(ResultSet resultSet) throws SQLException {
+    private Category2 getCategoryFromRow(ResultSet resultSet) throws SQLException {
 
         int id = resultSet.getInt("categories.id");
         String name = resultSet.getString("categories.name");
 
-        return new Category(id, name);
+        return new Category2(id, name);
     }
 }
