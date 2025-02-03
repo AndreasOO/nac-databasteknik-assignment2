@@ -84,6 +84,11 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public void addShopItemToOrder(ShopItem shopItem, Order order) {
+
+    }
+
 
 
     private Order createActiveOrderFromDTO(OrderDTO orderDTO) {

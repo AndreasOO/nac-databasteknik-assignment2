@@ -88,6 +88,26 @@ public class OrderDAOImpl implements OrderDAO {
 
     }
 
+    @Override
+    public void executeStoredProcedureAddToCart(int customerId, int productId, int shopItemId) {
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
+             CallableStatement callableStatement = connection.prepareCall(
+                     "addItemToCart(?, ?, ?)")
+        ) {
+            callableStatement.setInt(1, customerId);
+            callableStatement.setInt(2, productId);
+            callableStatement.setInt(3, shopItemId);
+            try (ResultSet resultSet = callableStatement.executeQuery()) {
+                if (resultSet.next()) {
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private OrderDTO getActiveOrderDTOFromRow(ResultSet resultSet) throws SQLException {
 

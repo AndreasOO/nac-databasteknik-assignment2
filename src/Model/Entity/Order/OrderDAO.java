@@ -10,4 +10,5 @@ public interface OrderDAO {
     void updateActiveOrder(Order order);
     void insertNewActiveOrderForUser(User user);
     void removeOrder(Order order);
+    void executeStoredProcedureAddToCart(int customerId, int productId, int shopItemId);
 }

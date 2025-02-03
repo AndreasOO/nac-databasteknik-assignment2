@@ -34,7 +34,7 @@ public class LoginState implements ControllerState {
     }
 
     @Override
-    public void addItemToCart() {
+    public void addItemToOrder() {
         throw new UnsupportedOperationException("Cannot show details from logged out state");
     }
 

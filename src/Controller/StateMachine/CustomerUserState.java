@@ -55,8 +55,11 @@ public class CustomerUserState implements ControllerState {
     }
 
     @Override
-    public void addItemToCart() {
+    public void addItemToOrder() {
         int rowIndex = view.getSelectedItemInSearchTable();
+        //TODO call SP with params
+        //TODO call orderService.setupActiveOrderForUser(model.getUserLoggedIn())
+        //TODO call perform search
         model.addItemToOrder(rowIndex);
 
     }
@@ -116,8 +119,10 @@ public class CustomerUserState implements ControllerState {
 
     @Override
     public void removeOrder() {
-        // TODO Add action in model then let gui reset by observers
-         model.clearOrder();
+        // TODO service to remove current order
+        //  -> cascade delete order items
+        //  ->  model.setCurrentOrder(orderService.setupActiveOrderForUser(model.getUserLoggedIn()))
+         model.clearOrder(); // remove after model.setcurrent order is working.
          view.resetOrderSummary();
     }
 

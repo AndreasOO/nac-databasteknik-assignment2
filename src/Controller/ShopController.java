@@ -1,7 +1,6 @@
 package Controller;
 
 import Controller.StateMachine.*;
-import Model.Entity.User.User;
 import Model.ShopModel;
 import View.ShopView;
 
@@ -53,7 +52,7 @@ public class ShopController {
         });
 
         view.getAddToOrderButton().addActionListener(e -> {
-            state.addItemToCart();
+            state.addItemToOrder();
         });
 
         view.getCompleteOrderButton().addActionListener(e -> {
