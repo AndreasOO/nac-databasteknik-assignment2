@@ -67,7 +67,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void createNewActiveOrderForUser(User user){
+    public void insertNewActiveOrderForUser(User user){
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "insert into orders (customer_id, order_active) values (?, true)");

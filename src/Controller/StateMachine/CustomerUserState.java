@@ -2,10 +2,10 @@ package Controller.StateMachine;
 
 import Controller.ShopController;
 import Model.Entity.ShippingAddress.ShippingAddress;
-import Model.Service.OrderService;
-import Model.Service.OrderServiceImpl;
-import Model.Service.SearchService;
-import Model.Service.SearchServiceImpl;
+import Service.OrderService;
+import Service.OrderServiceImpl;
+import Service.SearchService;
+import Service.SearchServiceImpl;
 import Model.ShopModel;
 import View.ShopView;
 

@@ -1,9 +1,8 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
-import Model.Entity.User.User;
-import Model.Service.UserService;
-import Model.Service.UserServiceImpl;
+import Service.UserService;
+import Service.UserServiceImpl;
 import Model.ShopModel;
 import Security.UserAuthenticator;
 import View.ShopView;

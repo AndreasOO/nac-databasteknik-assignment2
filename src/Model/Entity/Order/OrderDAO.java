@@ -8,6 +8,6 @@ public interface OrderDAO {
 
     Optional<OrderDTO> findActiveOrderDTOByUserId(User user);
     void updateActiveOrder(Order order);
-    void createNewActiveOrderForUser(User user);
+    void insertNewActiveOrderForUser(User user);
     void removeOrder(Order order);
 }

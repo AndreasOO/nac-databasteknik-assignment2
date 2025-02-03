@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 public class ShopModel {
     private User userLoggedIn;
     private Order currentOrder;
-    private List<ShopItem2> currentSearchResult;
-    private List<ShopItem2> filteredSearchResult;
+    private List<ShopItem> currentSearchResult;
+    private List<ShopItem> filteredSearchResult;
 
     private final List<OrderObserver> shoppingCartObservers;
     private final List<SearchResultObserver> searchResultObservers;
@@ -55,7 +55,7 @@ public class ShopModel {
         notifyOrderObservers();
     }
 
-    public void setCurrentSearchResult(List<ShopItem2> searchResult) {
+    public void setCurrentSearchResult(List<ShopItem> searchResult) {
         currentSearchResult = searchResult;
         filteredSearchResult = currentSearchResult;
         notifySearchResultObservers();
@@ -116,15 +116,15 @@ public class ShopModel {
     }
 
 
-    public List<ShopItem2> getCurrentSearchResult() {
+    public List<ShopItem> getCurrentSearchResult() {
         return currentSearchResult;
     }
 
-    public List<ShopItem2> getFilteredSearchResult() {
+    public List<ShopItem> getFilteredSearchResult() {
         return filteredSearchResult;
     }
 
-    public List<ShopItem2> getCurrentOrderItemList() {
+    public List<ShopItem> getCurrentOrderItemList() {
         return currentOrder.getOrderItems();
     }
 

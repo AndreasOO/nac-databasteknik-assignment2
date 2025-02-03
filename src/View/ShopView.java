@@ -1,9 +1,7 @@
 package View;
 
-import Model.Entity.Category.Category2;
-import Model.Entity.ShopItem.Category;
+import Model.Entity.Category.Category;
 import Model.Entity.ShopItem.ShopItem;
-import Model.Entity.ShopItem.ShopItem2;
 import Model.ShopModel;
 
 import javax.swing.*;
@@ -254,20 +252,20 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     }
 
 
-    public void addItemRowToSearchTable(ShopItem2 shopItem) {
+    public void addItemRowToSearchTable(ShopItem shopItem) {
         searchResultTableModel.addRow(new String[]{
                                                    shopItem.getProduct().getName(),
                                                    shopItem.getProduct().getBrand().getName(),
                                                    shopItem.getSpecification().getColor(),
                                                    String.valueOf(shopItem.getSpecification().getSize()),
-                                                   shopItem.getProduct().getCategories().stream().map(Category2::getName).collect(Collectors.joining(", ")),
+                                                   shopItem.getProduct().getCategories().stream().map(Category::getName).collect(Collectors.joining(", ")),
                                                    String.valueOf(shopItem.getProduct().getPrice()),
                                                    String.valueOf(shopItem.getQuantity())
         });
     }
 
 
-    public void addItemToOrderTable(ShopItem2 shopItem) {
+    public void addItemToOrderTable(ShopItem shopItem) {
         orderTableModel.addRow(new String[]{
                                             shopItem.getProduct().getName(),
                                             shopItem.getProduct().getBrand().getName(),

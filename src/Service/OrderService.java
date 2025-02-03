@@ -1,4 +1,4 @@
-package Model.Service;
+package Service;
 
 import Model.Entity.Order.Order;
 import Model.Entity.ShippingAddress.ShippingAddress;

@@ -1,7 +1,7 @@
 package Model.Entity.Product;
 
 import Model.Entity.Brand.Brand;
-import Model.Entity.Category.Category2;
+import Model.Entity.Category.Category;
 import Model.Entity.ProductType.ProductType;
 
 import java.util.List;
@@ -12,9 +12,9 @@ public class Product {
     private final int price;
     private final Brand brand;
     private final ProductType productType;
-    private final List<Category2> categories;
+    private final List<Category> categories;
 
-    public Product(int id, String name, int price, Brand brand, ProductType productType, List<Category2> categories) {
+    public Product(int id, String name, int price, Brand brand, ProductType productType, List<Category> categories) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -43,7 +43,7 @@ public class Product {
         return productType;
     }
 
-    public List<Category2> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 

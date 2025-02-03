@@ -1,4 +1,4 @@
-package Model.Service;
+package Service;
 
 import Model.Entity.Brand.BrandDAO;
 import Model.Entity.Brand.BrandDAOImpl;
@@ -17,7 +17,6 @@ import Model.Entity.Specification.SpecificationDAOImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class SearchServiceImpl implements SearchService {
     ShopItemDAO shopItemDAO;
@@ -37,13 +36,10 @@ public class SearchServiceImpl implements SearchService {
 
     }
 
-    @Override
-    public List<ShopItem> searchAll() {
-        return shopItemDAO.findAll();
-    }
+
 
     @Override
-    public List<ShopItem2> searchAll2() {
+    public List<ShopItem> searchAll2() {
         Optional<List<ShopItemDTO>> shopItemDTOs = shopItemDAO.findAllDTO();
         if (shopItemDTOs.isEmpty()) {
             return new ArrayList<>();
@@ -54,7 +50,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<ShopItem2> searchByName2(String name) {
+    public List<ShopItem> searchByName2(String name) {
         Optional<List<ShopItemDTO>> shopItemDTOs = shopItemDAO.findByNameDTO(name);
         if (shopItemDTOs.isEmpty()) {
             return new ArrayList<>();
@@ -65,7 +61,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<ShopItem2> searchBySize2(int size) {
+    public List<ShopItem> searchBySize2(int size) {
         Optional<List<ShopItemDTO>> shopItemDTOs = shopItemDAO.findBySizeDTO(size);
         if (shopItemDTOs.isEmpty()) {
             return new ArrayList<>();
@@ -75,9 +71,9 @@ public class SearchServiceImpl implements SearchService {
         }
     }
 
-    private List<ShopItem2> createShopItemListFromDTOs(List<ShopItemDTO> shopItemDTOs) {
+    private List<ShopItem> createShopItemListFromDTOs(List<ShopItemDTO> shopItemDTOs) {
         return shopItemDTOs.stream()
-                .map(shopItemDTO -> new ShopItem2(
+                .map(shopItemDTO -> new ShopItem(
                         shopItemDTO.getId(),
                         createProductFromId(shopItemDTO.getProductId()),
                         specificationDAO.findSpecificationByID(shopItemDTO.getSpecificationId()).orElseThrow(),
@@ -96,13 +92,4 @@ public class SearchServiceImpl implements SearchService {
                            categoryDAO.findCategoryByProductID(productDTO.getId()).orElseThrow());
     }
 
-    @Override
-    public List<ShopItem> searchByName(String name) {
-        return shopItemDAO.findByName(name);
-    }
-
-    @Override
-    public List<ShopItem> searchBySize(int size) {
-        return shopItemDAO.findBySize(size);
-    }
 }

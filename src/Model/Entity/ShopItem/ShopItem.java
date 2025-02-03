@@ -1,25 +1,18 @@
 package Model.Entity.ShopItem;
 
-import java.util.List;
+import Model.Entity.Product.Product;
+import Model.Entity.Specification.Specification;
 
 public class ShopItem {
     private final int id;
-    private final String name;
-    private final String brand;
-    private final ItemColor color;
-    private final int size;
-    private final List<Category> shoeCategoriesList;
-    private final int price;
+    private final Product product;
+    private final Specification specification;
     private final int quantity;
 
-    public ShopItem(int id, String name, String brand, ItemColor color, int size, List<Category> shoeCategories, int price, int quantity) {
+    public ShopItem(int id, Product product, Specification specification, int quantity) {
         this.id = id;
-        this.name = name;
-        this.brand = brand;
-        this.color = color;
-        this.size = size;
-        this.shoeCategoriesList = shoeCategories;
-        this.price = price;
+        this.product = product;
+        this.specification = specification;
         this.quantity = quantity;
     }
 
@@ -27,49 +20,26 @@ public class ShopItem {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public Product getProduct() {
+        return product;
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public ItemColor getColor() {
-        return color;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public List<Category> getShoeCategoriesList() {
-        return shoeCategoriesList;
-    }
-
-    public int getPrice() {
-        return price;
+    public Specification getSpecification() {
+        return specification;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
+
     @Override
     public String toString() {
-        return "ShopItem{" +
+        return "ShopItem2{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", brand='" + brand + '\'' +
-                ", color=" + color +
-                ", size=" + size +
-                ", shoeCategoriesList=" + shoeCategoriesList +
-                ", price=" + price +
+                ", product=" + product +
+                ", specification=" + specification +
                 ", quantity=" + quantity +
                 '}';
     }
 }
-
-
-
-

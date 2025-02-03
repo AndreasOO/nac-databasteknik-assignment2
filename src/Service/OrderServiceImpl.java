@@ -1,4 +1,4 @@
-package Model.Service;
+package Service;
 
 import Model.Entity.Brand.BrandDAO;
 import Model.Entity.Brand.BrandDAOImpl;
@@ -14,7 +14,7 @@ import Model.Entity.ProductType.ProductTypeDAOImpl;
 import Model.Entity.ShippingAddress.ShippingAddress;
 import Model.Entity.ShippingAddress.ShippingAddressDAO;
 import Model.Entity.ShippingAddress.ShippingAddressDAOImpl;
-import Model.Entity.ShopItem.ShopItem2;
+import Model.Entity.ShopItem.ShopItem;
 import Model.Entity.ShopItem.ShopItemDAO;
 import Model.Entity.ShopItem.ShopItemDAOImpl;
 import Model.Entity.ShopItem.ShopItemDTO;
@@ -75,29 +75,18 @@ public class OrderServiceImpl implements OrderService {
         Optional<OrderDTO> orderDTOOptional = orderDAO.findActiveOrderDTOByUserId(user);
 
         if (orderDTOOptional.isEmpty()) {
-            orderDAO.createNewActiveOrderForUser(user);
+            orderDAO.insertNewActiveOrderForUser(user);
             OrderDTO orderDTO = orderDAO.findActiveOrderDTOByUserId(user).orElseThrow();
-            return createActiveOrderFromDTO2(orderDTO);
+            return createActiveOrderFromDTO(orderDTO);
 
         } else {
-            System.out.println("Printing optional order: " + orderDTOOptional.get());
-            System.out.println("Printing resulting order: " + createActiveOrderFromDTO2(orderDTOOptional.get()));
-            return createActiveOrderFromDTO2(orderDTOOptional.get());
+            return createActiveOrderFromDTO(orderDTOOptional.get());
         }
     }
 
-//    private Order createActiveOrderFromDTO(OrderDTO orderDTO) {
-//        Order order = new Order();
-//        order.setId(orderDTO.getId());
-//        order.setCustomer(userDAO.findUserById(orderDTO.getCustomerId()).orElseThrow());
-//        order.setActive(orderDTO.isActive());
-//        //TODO FIX SHOP ITEM != ORDER ITEM
-//        //TODO FIX SHOP ITEM METHOD TO FOLLOW DTO PATTERN AS IN SEARCH SERVICE
-//        order.setOrderItems(shopItemDAO.findByOrderId(orderDTO.getId()));
-//        return order;
-//    }
 
-    private Order createActiveOrderFromDTO2(OrderDTO orderDTO) {
+
+    private Order createActiveOrderFromDTO(OrderDTO orderDTO) {
         Order order = new Order();
         order.setId(orderDTO.getId());
         order.setCustomer(userDAO.findUserById(orderDTO.getCustomerId()).orElseThrow());
@@ -107,19 +96,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
-    //TODO FIX IMMUNTABLE PROBLEM HERE PROPER RETURN VALUE IF OPTIONAL IS EMPTY
-    private List<ShopItem2> createShopItemListFromOrderId(int orderId) {
+    private List<ShopItem> createShopItemListFromOrderId(int orderId) {
         Optional<List<ShopItemDTO>> shopItemListOptional = shopItemDAO.findByOrderIdAllDTO(orderId);
         if (shopItemListOptional.isEmpty()) {
             return new ArrayList<>();
         } else {
             return shopItemListOptional.get().stream()
-                    .map(shopItemDTO -> new ShopItem2(
-                            shopItemDTO.getId(),
-                            createProductFromId(shopItemDTO.getProductId()),
-                            specificationDAO.findSpecificationByID(shopItemDTO.getSpecificationId()).orElseThrow(),
-                            shopItemDTO.getQuantity()
+                    .map(shopItemDTO -> new ShopItem(
+                                                                shopItemDTO.getId(),
+                                                                createProductFromId(shopItemDTO.getProductId()),
+                                                                specificationDAO.findSpecificationByID(shopItemDTO.getSpecificationId()).orElseThrow(),
+                                                                shopItemDTO.getQuantity()
                     ))
                     .toList();
         }
