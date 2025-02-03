@@ -64,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomer(userDAO.findUserById(orderDTO.getCustomerId()).orElseThrow());
         order.setActive(orderDTO.isActive());
         //TODO FIX SHOP ITEM != ORDER ITEM
+        //TODO FIX SHOP ITEM METHOD TO FOLLOW DTO PATTERN AS IN SEARCH SERVICE
         order.setOrderItems(shopItemDAO.findByOrderId(orderDTO.getId()));
         return order;
     }

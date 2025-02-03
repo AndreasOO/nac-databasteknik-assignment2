@@ -49,17 +49,42 @@ public class SearchServiceImpl implements SearchService {
             return new ArrayList<>();
         }
         else {
-            return shopItemDTOs.get().stream()
-                    .map(shopItemDTO -> new ShopItem2(
-                                                                  shopItemDTO.getId(),
-                                                                  createProductFromId(shopItemDTO.getId()),
-                                                                  specificationDAO.findSpecificationByID(shopItemDTO.getSpecificationId()).orElseThrow(),
-                                                                  shopItemDTO.getQuantity()
-                    ))
-                    .toList();
+            return createShopItemListFromDTOs(shopItemDTOs.get());
         }
     }
 
+    @Override
+    public List<ShopItem2> searchByName2(String name) {
+        Optional<List<ShopItemDTO>> shopItemDTOs = shopItemDAO.findByNameDTO(name);
+        if (shopItemDTOs.isEmpty()) {
+            return new ArrayList<>();
+        }
+        else {
+            return createShopItemListFromDTOs(shopItemDTOs.get());
+        }
+    }
+
+    @Override
+    public List<ShopItem2> searchBySize2(int size) {
+        Optional<List<ShopItemDTO>> shopItemDTOs = shopItemDAO.findBySizeDTO(size);
+        if (shopItemDTOs.isEmpty()) {
+            return new ArrayList<>();
+        }
+        else {
+            return createShopItemListFromDTOs(shopItemDTOs.get());
+        }
+    }
+
+    private List<ShopItem2> createShopItemListFromDTOs(List<ShopItemDTO> shopItemDTOs) {
+        return shopItemDTOs.stream()
+                .map(shopItemDTO -> new ShopItem2(
+                        shopItemDTO.getId(),
+                        createProductFromId(shopItemDTO.getProductId()),
+                        specificationDAO.findSpecificationByID(shopItemDTO.getSpecificationId()).orElseThrow(),
+                        shopItemDTO.getQuantity()
+                ))
+                .toList();
+    }
 
     private Product createProductFromId(int productId) {
         ProductDTO productDTO = productDAO.findProductDTOByID(productId).orElseThrow();

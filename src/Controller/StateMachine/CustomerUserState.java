@@ -32,6 +32,7 @@ public class CustomerUserState implements ControllerState {
     public void performSearch() {
         String searchInput = view.getSearchField().getText();
         if (searchInput.isEmpty()) {
+            searchService.searchAll2().forEach(System.out::println);
             model.setCurrentSearchResult(searchService.searchAll());
         }
         else if (view.getRadioButtonItemSize().isSelected()) {
