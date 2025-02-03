@@ -32,19 +32,19 @@ public class CustomerUserState implements ControllerState {
     public void performSearch() {
         String searchInput = view.getSearchField().getText();
         if (searchInput.isEmpty()) {
-            searchService.searchAll2().forEach(System.out::println);
-            model.setCurrentSearchResult(searchService.searchAll());
+//            searchService.searchAll2().forEach(System.out::println);
+            model.setCurrentSearchResult(searchService.searchAll2());
         }
         else if (view.getRadioButtonItemSize().isSelected()) {
             try {
                 int size = Integer.parseInt(searchInput);
-                model.setCurrentSearchResult(searchService.searchBySize(size));
+                model.setCurrentSearchResult(searchService.searchBySize2(size));
             } catch (NumberFormatException e) {
                 model.setCurrentSearchResult(new ArrayList<>());
             }
         }
         else if (view.getRadioButtonItemName().isSelected()) {
-            model.setCurrentSearchResult(searchService.searchByName(searchInput));
+            model.setCurrentSearchResult(searchService.searchByName2(searchInput));
         }
     }
 

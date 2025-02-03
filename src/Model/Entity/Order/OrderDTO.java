@@ -31,4 +31,14 @@ public class OrderDTO {
     public boolean isActive() {
         return active;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "id=" + id +
+                ", customerId=" + customerId +
+                ", shippingAddressId=" + shippingAddressId +
+                ", active=" + active +
+                '}';
+    }
 }

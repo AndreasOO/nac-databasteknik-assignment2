@@ -1,36 +1,23 @@
 package Model;
 
-import Model.Entity.Order.OrderDAOImpl;
-import Model.Entity.ShopItem.ShopItemDAOImpl;
-import Model.Entity.User.UserDAOImpl;
+
+import Model.Entity.ShopItem.*;
 import Model.Entity.Order.Order;
-import Model.Entity.ShopItem.Category;
-import Model.Entity.ShopItem.ShopItem;
 import Model.Entity.User.User;
-import Model.Entity.Order.OrderDAO;
-import Model.Entity.ShopItem.ShopItemDAO;
-import Model.Entity.User.UserDAO;
 import View.OrderObserver;
 import View.FilterResultObserver;
 import View.SearchResultObserver;
 import View.UserObserver;
-
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 public class ShopModel {
-    private final UserDAO userService;
-    private final ShopItemDAO shopItemService;
-    private final OrderDAO orderService;
     private User userLoggedIn;
-    private ShopItem shopItemPickedForOrder;
     private Order currentOrder;
-    private List<ShopItem> currentSearchResult;
-    private List<ShopItem> filteredSearchResult;
+    private List<ShopItem2> currentSearchResult;
+    private List<ShopItem2> filteredSearchResult;
 
     private final List<OrderObserver> shoppingCartObservers;
     private final List<SearchResultObserver> searchResultObservers;
@@ -38,9 +25,6 @@ public class ShopModel {
     private final List<UserObserver> userObservers;
 
     public ShopModel() {
-        userService = new UserDAOImpl();
-        shopItemService = new ShopItemDAOImpl();
-        orderService = new OrderDAOImpl();
         currentOrder = new Order();
         currentSearchResult = new ArrayList<>();
         filteredSearchResult = new ArrayList<>();
@@ -71,58 +55,21 @@ public class ShopModel {
         notifyOrderObservers();
     }
 
-    public void setCurrentSearchResult(List<ShopItem> searchResult) {
+    public void setCurrentSearchResult(List<ShopItem2> searchResult) {
         currentSearchResult = searchResult;
         filteredSearchResult = currentSearchResult;
         notifySearchResultObservers();
 
     }
 
-    public void searchByName(String name) {
-        currentSearchResult = shopItemService.findByName(name);
-        filteredSearchResult = currentSearchResult;
-        notifySearchResultObservers();
-    }
-
-    public void searchBySize(String size) {
-        try {
-            int sizeInt = Integer.parseInt(size);
-            currentSearchResult = shopItemService.findBySize(sizeInt);
-            filteredSearchResult = currentSearchResult;
-            notifySearchResultObservers();
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid size logged");
-            currentSearchResult = new ArrayList<>();
-            filteredSearchResult = currentSearchResult;
-            notifySearchResultObservers();
-        }
-    }
-
-
-    public void searchByID(String id) {
-        try {
-            int idInt = Integer.parseInt(id);
-            currentSearchResult = shopItemService.findById(idInt);
-            filteredSearchResult = currentSearchResult;
-            notifySearchResultObservers();
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid ID logged");
-            currentSearchResult = new ArrayList<>();
-            filteredSearchResult = currentSearchResult;
-            notifySearchResultObservers();
-        }
-    }
 
     public void filterByCategory(String filter) {
         if (filter.equals("None")) {
             filteredSearchResult = currentSearchResult;
         } else {
-            Category catFilter = Arrays.stream(Category.values()).filter(cat -> cat.getDisplayName().equalsIgnoreCase(filter))
-                                                                 .findFirst()
-                                                                 .get();
 
-            filteredSearchResult = currentSearchResult.stream().filter(shopItem -> shopItem.getShoeCategoriesList().contains(catFilter))
-                                                               .collect(Collectors.toList());
+            filteredSearchResult = currentSearchResult.stream().filter(shopItem -> shopItem.getProduct()
+                    .getCategories().stream().anyMatch(cat -> cat.getName().equalsIgnoreCase(filter))).collect(Collectors.toList());
         }
         notifyFilterResultObservers();
     }
@@ -152,9 +99,6 @@ public class ShopModel {
         }
     }
 
-
-
-
     public void registerOrderObserver(OrderObserver orderObserver) {
         shoppingCartObservers.add(orderObserver);
     }
@@ -172,20 +116,15 @@ public class ShopModel {
     }
 
 
-
-    public ShopItem getShopItemPickedForOrder() {
-        return shopItemPickedForOrder;
-    }
-
-    public List<ShopItem> getCurrentSearchResult() {
+    public List<ShopItem2> getCurrentSearchResult() {
         return currentSearchResult;
     }
 
-    public List<ShopItem> getFilteredSearchResult() {
+    public List<ShopItem2> getFilteredSearchResult() {
         return filteredSearchResult;
     }
 
-    public List<ShopItem> getCurrentOrderItemList() {
+    public List<ShopItem2> getCurrentOrderItemList() {
         return currentOrder.getOrderItems();
     }
 
@@ -198,7 +137,6 @@ public class ShopModel {
     }
 
     public void clearSearchHistory() {
-        shopItemPickedForOrder = null;
         currentSearchResult = new ArrayList<>();
         filteredSearchResult = new ArrayList<>();
         currentOrder.getOrderItems().clear();

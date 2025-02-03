@@ -194,7 +194,7 @@ public class ShopItemDAOImpl implements ShopItemDAO {
                              "shop_items.quantity " +
                              "from shop_items " +
                              "inner join order_items on order_items.shop_item_id = shop_items.id " +
-                             "where order_items.id = ?")
+                             "where order_items.order_id = ?")
         ) {
             preparedStatement.setInt(1, orderId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {

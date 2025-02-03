@@ -1,7 +1,9 @@
 package View;
 
+import Model.Entity.Category.Category2;
 import Model.Entity.ShopItem.Category;
 import Model.Entity.ShopItem.ShopItem;
+import Model.Entity.ShopItem.ShopItem2;
 import Model.ShopModel;
 
 import javax.swing.*;
@@ -252,26 +254,26 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     }
 
 
-    public void addItemRowToSearchTable(ShopItem shopItem) {
+    public void addItemRowToSearchTable(ShopItem2 shopItem) {
         searchResultTableModel.addRow(new String[]{
-                                                   shopItem.getName(),
-                                                   shopItem.getBrand(),
-                                                   shopItem.getColor().getDisplayName(),
-                                                   String.valueOf(shopItem.getSize()),
-                                                   shopItem.getShoeCategoriesList().stream().map(Category::getDisplayName).collect(Collectors.joining(", ")),
-                                                   String.valueOf(shopItem.getPrice()),
+                                                   shopItem.getProduct().getName(),
+                                                   shopItem.getProduct().getBrand().getName(),
+                                                   shopItem.getSpecification().getColor(),
+                                                   String.valueOf(shopItem.getSpecification().getSize()),
+                                                   shopItem.getProduct().getCategories().stream().map(Category2::getName).collect(Collectors.joining(", ")),
+                                                   String.valueOf(shopItem.getProduct().getPrice()),
                                                    String.valueOf(shopItem.getQuantity())
         });
     }
 
 
-    public void addItemToOrderTable(ShopItem shopItem) {
+    public void addItemToOrderTable(ShopItem2 shopItem) {
         orderTableModel.addRow(new String[]{
-                                            shopItem.getName(),
-                                            shopItem.getBrand(),
-                                            shopItem.getColor().getDisplayName(),
-                                            String.valueOf(shopItem.getSize()),
-                                            String.valueOf(shopItem.getPrice())
+                                            shopItem.getProduct().getName(),
+                                            shopItem.getProduct().getBrand().getName(),
+                                            shopItem.getSpecification().getColor(),
+                                            String.valueOf(shopItem.getSpecification().getSize()),
+                                            String.valueOf(shopItem.getProduct().getPrice()),
         });
     }
 
@@ -279,7 +281,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
     public void updateOrder() {
         resetOrderTable();
         shopModel.getCurrentOrderItemList().forEach(this::addItemToOrderTable);
-        int orderPriceSum = shopModel.getCurrentOrderItemList().stream().mapToInt(ShopItem::getPrice).sum();
+        int orderPriceSum = shopModel.getCurrentOrderItemList().stream().mapToInt(shopItem -> shopItem.getProduct().getPrice()).sum();
         orderSummaryTotalCostTextField.setText(String.valueOf(orderPriceSum));
     }
 

@@ -2,6 +2,7 @@ package Model.Entity.Order;
 
 import Model.Entity.ShippingAddress.ShippingAddress;
 import Model.Entity.ShopItem.ShopItem;
+import Model.Entity.ShopItem.ShopItem2;
 import Model.Entity.User.User;
 
 import java.time.LocalDate;
@@ -14,13 +15,13 @@ public class Order {
     private LocalDate orderDate;
     private ShippingAddress shippingAddress;
     private boolean active;
-    private List<ShopItem> orderItems;
+    private List<ShopItem2> orderItems;
 
     public Order() {
         orderItems = new ArrayList<>();
     }
 
-    public Order(int id, User customer, boolean active, List<ShopItem> orderItems) {
+    public Order(int id, User customer, boolean active, List<ShopItem2> orderItems) {
         this.id = id;
         this.customer = customer;
         this.active = active;
@@ -36,7 +37,7 @@ public class Order {
     }
 
 
-    public void addOrderItem(ShopItem shopItem) {
+    public void addOrderItem(ShopItem2 shopItem) {
         orderItems.add(shopItem);
     }
 
@@ -60,7 +61,7 @@ public class Order {
         return active;
     }
 
-    public List<ShopItem> getOrderItems() {
+    public List<ShopItem2> getOrderItems() {
         return orderItems;
     }
 
@@ -80,7 +81,7 @@ public class Order {
         this.shippingAddress = shippingAddress;
     }
 
-    public void setOrderItems(List<ShopItem> orderItems) {
+    public void setOrderItems(List<ShopItem2> orderItems) {
         this.orderItems = orderItems;
     }
 
