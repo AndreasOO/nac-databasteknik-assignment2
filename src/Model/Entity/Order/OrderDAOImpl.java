@@ -83,7 +83,6 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    //TODO REMOVE ORDER ONLY AND ORDER ITEMS SHOULD BE DELETED ON CASCADE
     public void removeOrder(Order order) throws SQLException {
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
