@@ -86,6 +86,11 @@ public class OrderServiceImpl implements OrderService {
             orderDAO.executeStoredProcedureAddToCart(order.getCustomer().getId(), order.getId(), shopItem.getId());
     }
 
+    @Override
+    public void removeActiveOrder(Order order) throws SQLException {
+        orderDAO.removeOrder(order);
+    }
+
 
 
     private Order createActiveOrderFromDTO(OrderDTO orderDTO) {

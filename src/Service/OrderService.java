@@ -11,4 +11,5 @@ public interface OrderService {
     Order setupAndGetActiveOrderForUser(User user);
     void completeActiveOrder(Order order, ShippingAddress shippingAddress);
     void addShopItemToOrder(ShopItem shopItem, Order order) throws SQLException;
+    void removeActiveOrder(Order order) throws SQLException;
 }

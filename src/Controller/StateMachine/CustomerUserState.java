@@ -123,10 +123,16 @@ public class CustomerUserState implements ControllerState {
 
     @Override
     public void removeOrder() {
+        try {
+            orderService.removeActiveOrder(model.getCurrentOrder());
+        } catch (SQLException e) {
+            view.showGeneralErrorMessage(e.getMessage());
+        }
         // TODO service to remove current order
         //  -> cascade delete order items
         //  ->  model.setCurrentOrder(orderService.setupActiveOrderForUser(model.getUserLoggedIn()))
         // TODO repopulate quantity in shop items
+        model.setCurrentOrder(orderService.setupAndGetActiveOrderForUser(model.getUserLoggedIn()));
          view.resetOrderSummary();
     }
 
