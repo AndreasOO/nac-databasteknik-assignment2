@@ -127,7 +127,7 @@ public class CustomerUserState implements ControllerState {
         // TODO service to remove current order
         //  -> cascade delete order items
         //  ->  model.setCurrentOrder(orderService.setupActiveOrderForUser(model.getUserLoggedIn()))
-         model.clearOrder(); // remove after model.setcurrent order is working.
+        // TODO repopulate quantity in shop items
          view.resetOrderSummary();
     }
 
