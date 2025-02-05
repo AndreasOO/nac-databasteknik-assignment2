@@ -62,11 +62,7 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(shippingAddressDAO.findShippingAddressByZipCodeAndStreet(shippingAddress).get());
         order.setOrderDate(LocalDate.now());
         order.setActive(false);
-
         orderDAO.updateActiveOrder(order);
-        //TODO FIX SHIP ADR ENTITY AND DAO, CREATE AND SET TO CURRENT ORDER
-
-        //TODO FIX ORDER ITEMS ENTITY AND SAVE THESE WHEN COMPLETING ORDER
     }
 
 
