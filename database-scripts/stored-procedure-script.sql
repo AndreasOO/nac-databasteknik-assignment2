@@ -10,6 +10,12 @@ BEGIN
             resignal set message_text = 'An order with that id aldready exists, rolling back';
         END;
         
+    DECLARE EXIT HANDLER FOR 1264
+		BEGIN 
+            ROLLBACK;
+            resignal set message_text = 'The shop item is out of stock';
+        END;
+        
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 		BEGIN 
             ROLLBACK;
@@ -62,6 +68,8 @@ delimiter ;
 
 SET AUTOCOMMIT = 1;
 
-call addToCart(7,25,1);
-SELECT * from order_items WHERE order_items.order_id = 28;
+
+
+call addToCart(7,null,2);
+SELECT * from order_items WHERE order_items.order_id = 15;
 -- SELECT shop_db.`orders`.`id` FROM shop_db.`orders` WHERE shop_db.`orders`.`customer_id`= 1 AND shop_db.orders.`order_active` = 1;
