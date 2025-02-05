@@ -1,5 +1,7 @@
 package Security;
 
+import Configuration.DAOConfig.ConnectionConfigManager;
+
 import java.sql.*;
 
 public enum UserAuthenticator {
@@ -10,9 +12,9 @@ public enum UserAuthenticator {
     private final String datasourcePassword;
 
     UserAuthenticator() {
-        datasourceURL = "jdbc:mysql://localhost:3306/shop_db?serverTimeZone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
-        datasourceUsername = "shopadmin";
-        datasourcePassword = "test1234";
+        datasourceURL = ConnectionConfigManager.getInstance().getDatasourceURL();
+        datasourceUsername = ConnectionConfigManager.getInstance().getDatasourceUsername();
+        datasourcePassword = ConnectionConfigManager.getInstance().getDatasourcePassword();
     }
 
     public static UserAuthenticator getInstance() {
