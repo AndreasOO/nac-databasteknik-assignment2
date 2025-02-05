@@ -40,45 +40,34 @@ BEGIN
 			
             
             SELECT `shop_db`.`orders`.`id` INTO `customerActiveOrderId` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= `in_customer_id` AND `shop_db`.`orders`.`order_active` = 1;
-            select `customerActiveOrderId`;
             IF (`in_order_id` IS NULL) THEN 
             -- Active order exists and input order is null -> add input shop item to active order
-            select '1:1 start';
             INSERT INTO `shop_db`.`order_items` (`shop_item_id`, `order_id`) VALUES (`in_shop_item_id`, `customerActiveOrderId`);
-            select '1:1 end';
 			
-            -- 
+            
 			ELSEIF (`in_order_id` IS NOT NULL) THEN 
             -- Active order exists and input order is specified -> add input shop item to active order with corresponding input order id -> if mismatch throw error 1452
-            select '1:2 start';
             INSERT INTO `shop_db`.`order_items` (`shop_item_id`, `order_id`) VALUES (`in_shop_item_id`, `in_order_id`);
-            select '1:2 end';
 			END IF;
             
 		
         ELSE	
 			IF (`in_order_id` IS NULL) THEN 
-				select '2:1 start';
 				INSERT INTO `shop_db`.`orders` (`customer_id`, `order_active`) VALUES (`in_customer_id`, 1);
 				SELECT LAST_INSERT_ID() INTO `customerActiveOrderId`;
-                select `customerActiveOrderId`;
 				INSERT INTO `shop_db`.`order_items` (`shop_item_id`, `order_id`) VALUES (`in_shop_item_id`, `customerActiveOrderId`);
-                select '2:1 end';
 		
         
 			ELSEIF (`in_order_id` IS NOT NULL) THEN 
             -- Active order does not exists and input order is specified -> create new active order with input order id -> add shop item to active order -> throws error 1062 if completed order with same order id exists already
             -- WARNING: WILL SET NEW AUTO_INCREMENT START VALUE STARTING FROM in_order_id VALUE
-				select '2:2 start';
 				INSERT INTO `shop_db`.`orders` (`id`,`customer_id`, `order_active`) VALUES (`in_order_id`,`in_customer_id`, 1);
 				INSERT INTO `shop_db`.`order_items` (`shop_item_id`, `order_id`) VALUES (`in_shop_item_id`, `in_order_id`);
-                select '2:2 end';
                 
             END IF;
         
         END IF;
         UPDATE `shop_db`.`shop_items` SET `quantity`= `quantity` -1 WHERE `shop_db`.`shop_items`.`id` = `in_shop_item_id`;
-        -- DECREMENT QUANTITY BLOCK HERE
      COMMIT;   
 			
 END$
