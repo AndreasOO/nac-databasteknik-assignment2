@@ -1,6 +1,6 @@
 package Model.Entity.Order;
 
-import Configuration.DAOConfig.ConnectionConfigManager;
+import Configuration.ConnectionConfigManager;
 import Model.Entity.User.User;
 
 import java.sql.*;

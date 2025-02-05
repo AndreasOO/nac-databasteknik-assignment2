@@ -1,13 +1,11 @@
 package Model.Entity.ShopItem;
 
-import Configuration.DAOConfig.ConnectionConfigManager;
+import Configuration.ConnectionConfigManager;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class ShopItemDAOImpl implements ShopItemDAO {
 
