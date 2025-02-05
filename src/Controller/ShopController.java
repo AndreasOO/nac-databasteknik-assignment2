@@ -30,7 +30,7 @@ public class ShopController {
         state.updateView();
         addEventListeners();
     }
-
+    
     private void addEventListeners() {
 
         view.getSearchField().addActionListener(e -> {

@@ -3,10 +3,10 @@ package Model.Entity.Order;
 import java.time.LocalDate;
 
 public class OrderDTO {
-    private int id;
-    private int customerId;
-    private int shippingAddressId;
-    private boolean active;
+    private final int id;
+    private final int customerId;
+    private final int shippingAddressId;
+    private final boolean active;
 
     public OrderDTO(int id, int customerId, int shippingAddressId, boolean active) {
         this.id = id;

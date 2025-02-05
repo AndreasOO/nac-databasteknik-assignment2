@@ -79,7 +79,6 @@ public class CustomerUserState implements ControllerState {
 
     @Override
     public void logoutUser() {
-        model.clearSearchHistory();
         view.resetSearchTable();
         view.resetOrderTable();
         view.resetOrderSummary();

@@ -138,10 +138,4 @@ public class ShopModel {
     public User getUserLoggedIn() {
         return userLoggedIn;
     }
-
-    public void clearSearchHistory() {
-//        currentSearchResult = new ArrayList<>();
-//        filteredSearchResult = new ArrayList<>();
-//        currentOrder.getOrderItems().clear();
-    }
 }
