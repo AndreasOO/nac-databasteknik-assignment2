@@ -22,6 +22,7 @@ public enum UserAuthenticator {
 
     public boolean authenticate(String username, String password) {
         boolean authenticated = false;
+        System.out.println("Authenticating user " + username + " with password " + password);
         try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "select customers.id " +
@@ -30,11 +31,15 @@ public enum UserAuthenticator {
                              "where customers.email = ? and password = ?"
                              )
         ) {
+            System.out.println(preparedStatement.toString());
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                System.out.println("test2");
                 if (resultSet.next()) {
+
                     authenticated = true;
+                    System.out.println(authenticated);
                 }
             }
 

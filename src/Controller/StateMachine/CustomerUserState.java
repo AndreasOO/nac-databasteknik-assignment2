@@ -2,6 +2,7 @@ package Controller.StateMachine;
 
 import Controller.ShopController;
 import Model.Entity.ShippingAddress.ShippingAddress;
+import Model.Entity.ShopItem.ShopItem;
 import Service.OrderService;
 import Service.OrderServiceImpl;
 import Service.SearchService;
@@ -9,6 +10,7 @@ import Service.SearchServiceImpl;
 import Model.ShopModel;
 import View.ShopView;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerUserState implements ControllerState {
@@ -57,10 +59,21 @@ public class CustomerUserState implements ControllerState {
     @Override
     public void addItemToOrder() {
         int rowIndex = view.getSelectedItemInSearchTable();
+        ShopItem selectedItem = model.getSelectedShopItemByRowIndex(rowIndex);
+        try {
+            orderService.addShopItemToOrder(selectedItem, model.getCurrentOrder());
+        } catch (SQLException e) {
+            view.showGeneralErrorMessage(e.getMessage().substring(e.getMessage().indexOf(':')+1));
+            performSearch();
+            return;
+        }
+
         //TODO call SP with params
+        model.setCurrentOrder(orderService.setupAndGetActiveOrderForUser(model.getUserLoggedIn()));
         //TODO call orderService.setupActiveOrderForUser(model.getUserLoggedIn())
         //TODO call perform search
-        model.addItemToOrder(rowIndex);
+        performSearch();
+//        model.addItemToOrder(rowIndex);
 
     }
 
@@ -100,7 +113,7 @@ public class CustomerUserState implements ControllerState {
 
         // TODO Add action in model
         System.out.println("Order completed");
-        model.setCurrentOrder(orderService.setupActiveOrderForUser(model.getUserLoggedIn()));
+        model.setCurrentOrder(orderService.setupAndGetActiveOrderForUser(model.getUserLoggedIn()));
         System.out.println("New order set up");
     }
 
@@ -130,6 +143,6 @@ public class CustomerUserState implements ControllerState {
     public void setupModelForUser() {
         view.resetSearchParameters();
         performSearch();
-        model.setCurrentOrder(orderService.setupActiveOrderForUser(model.getUserLoggedIn()));
+        model.setCurrentOrder(orderService.setupAndGetActiveOrderForUser(model.getUserLoggedIn()));
     }
 }

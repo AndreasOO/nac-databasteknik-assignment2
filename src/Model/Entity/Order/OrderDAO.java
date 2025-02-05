@@ -2,6 +2,7 @@ package Model.Entity.Order;
 
 import Model.Entity.User.User;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 public interface OrderDAO {
@@ -10,5 +11,5 @@ public interface OrderDAO {
     void updateActiveOrder(Order order);
     void insertNewActiveOrderForUser(User user);
     void removeOrder(Order order);
-    void executeStoredProcedureAddToCart(int customerId, int productId, int shopItemId);
+    void executeStoredProcedureAddToCart(int customerId, int orderId, int shopItemId) throws SQLException;
 }

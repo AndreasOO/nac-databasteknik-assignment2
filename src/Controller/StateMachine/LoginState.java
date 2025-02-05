@@ -42,9 +42,11 @@ public class LoginState implements ControllerState {
     public void loginUser() {
         String username = view.getInputUsername();
         String password = view.getInputPassword();
+        System.out.println(username + " " + password);
         if (authenticator.authenticate(username, password)) {
             model.setUserLoggedIn(userService.getAuthenticatedUserByUsername(username));
             //TODO call services here to feed model with correct data
+            System.out.println("user: " + model.getUserLoggedIn());
             controller.changeToCustomerUserState();
             view.resetLoginForm();
         } else {

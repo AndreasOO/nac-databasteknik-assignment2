@@ -24,6 +24,7 @@ import Model.Entity.User.User;
 import Model.Entity.User.UserDAO;
 import Model.Entity.User.UserDAOImpl;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Order setupActiveOrderForUser(User user) {
+    public Order setupAndGetActiveOrderForUser(User user) {
         Optional<OrderDTO> orderDTOOptional = orderDAO.findActiveOrderDTOByUserId(user);
 
         if (orderDTOOptional.isEmpty()) {
@@ -85,8 +86,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addShopItemToOrder(ShopItem shopItem, Order order) {
-
+    public void addShopItemToOrder(ShopItem shopItem, Order order) throws SQLException {
+            orderDAO.executeStoredProcedureAddToCart(order.getCustomer().getId(), order.getId(), shopItem.getId());
     }
 
 

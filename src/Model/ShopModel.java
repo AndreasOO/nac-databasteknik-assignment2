@@ -44,6 +44,9 @@ public class ShopModel {
         notifyOrderObservers();
     }
 
+    public ShopItem getSelectedShopItemByRowIndex(int rowIndex) {
+        return filteredSearchResult.get(rowIndex);
+    }
     //TODO redo with stored procedure
     public void addItemToOrder(int rowIndex) {
         currentOrder.getOrderItems().add(filteredSearchResult.get(rowIndex));
@@ -137,8 +140,8 @@ public class ShopModel {
     }
 
     public void clearSearchHistory() {
-        currentSearchResult = new ArrayList<>();
-        filteredSearchResult = new ArrayList<>();
-        currentOrder.getOrderItems().clear();
+//        currentSearchResult = new ArrayList<>();
+//        filteredSearchResult = new ArrayList<>();
+//        currentOrder.getOrderItems().clear();
     }
 }

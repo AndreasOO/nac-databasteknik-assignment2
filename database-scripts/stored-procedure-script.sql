@@ -16,6 +16,12 @@ BEGIN
             resignal set message_text = 'The shop item is out of stock';
         END;
         
+    DECLARE EXIT HANDLER FOR 1690
+		BEGIN 
+            ROLLBACK;
+            resignal set message_text = 'The shop item is out of stock';
+        END;
+        
     DECLARE EXIT HANDLER FOR 1452
 		BEGIN 
             ROLLBACK;
@@ -61,7 +67,7 @@ BEGIN
 		
         
 			ELSEIF (`in_order_id` IS NOT NULL) THEN 
-            -- Active order does not exists and input order is specified -> create new active order with input order id -> add shop item to active order 
+            -- Active order does not exists and input order is specified -> create new active order with input order id -> add shop item to active order -> throws error 1062 if completed order with same order id exists already
             -- WARNING: WILL SET NEW AUTO_INCREMENT START VALUE STARTING FROM in_order_id VALUE
 				select '2:2 start';
 				INSERT INTO `shop_db`.`orders` (`id`,`customer_id`, `order_active`) VALUES (`in_order_id`,`in_customer_id`, 1);
@@ -71,6 +77,7 @@ BEGIN
             END IF;
         
         END IF;
+        UPDATE `shop_db`.`shop_items` SET `quantity`= `quantity` -1 WHERE `shop_db`.`shop_items`.`id` = `in_shop_item_id`;
         -- DECREMENT QUANTITY BLOCK HERE
      COMMIT;   
 			
@@ -79,8 +86,8 @@ delimiter ;
 
 SET AUTOCOMMIT = 1;
 
+ UPDATE `shop_db`.`shop_items` SET `quantity`= 1 WHERE `shop_db`.`shop_items`.`id` = 1;
 
-
-call addToCart(4,null,3);
+call addToCart(4,null,1);
 SELECT * from order_items WHERE order_items.order_id = 28;
 -- SELECT shop_db.`orders`.`id` FROM shop_db.`orders` WHERE shop_db.`orders`.`customer_id`= 1 AND shop_db.orders.`order_active` = 1;
