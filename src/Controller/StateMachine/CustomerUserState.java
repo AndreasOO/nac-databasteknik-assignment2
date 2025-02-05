@@ -1,6 +1,7 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
+import Model.Entity.Order.Order;
 import Model.Entity.ShippingAddress.ShippingAddress;
 import Model.Entity.ShopItem.ShopItem;
 import Service.OrderService;
@@ -133,7 +134,8 @@ public class CustomerUserState implements ControllerState {
         //  ->  model.setCurrentOrder(orderService.setupActiveOrderForUser(model.getUserLoggedIn()))
         // TODO repopulate quantity in shop items
         model.setCurrentOrder(orderService.setupAndGetActiveOrderForUser(model.getUserLoggedIn()));
-         view.resetOrderSummary();
+        view.resetOrderSummary();
+        performSearch();
     }
 
     @Override
@@ -142,4 +144,6 @@ public class CustomerUserState implements ControllerState {
         performSearch();
         model.setCurrentOrder(orderService.setupAndGetActiveOrderForUser(model.getUserLoggedIn()));
     }
+
+
 }

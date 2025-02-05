@@ -182,6 +182,17 @@ public class ShopItemDAOImpl implements ShopItemDAO {
         return shopItemDTOsOptional;
     }
 
+    @Override
+    public void incrementQuantityOfShopItem(ShopItem shopItem) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(datasourceURL, datasourceUsername, datasourcePassword);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "update shop_items set quantity = quantity + 1 where id = ? "
+             )) {
+            preparedStatement.setInt(1, shopItem.getId());
+            preparedStatement.executeUpdate();
+        }
+    }
+
     private ShopItemDTO getShopItemDTOFromResultRow(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("shop_items.id");
         int productId = resultSet.getInt("shop_items.product_id");

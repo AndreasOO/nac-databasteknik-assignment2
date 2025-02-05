@@ -89,6 +89,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void removeActiveOrder(Order order) throws SQLException {
         orderDAO.removeOrder(order);
+        repopulateShopItemQuantityOfRemovedOrderItems(order);
+    }
+
+    private void repopulateShopItemQuantityOfRemovedOrderItems(Order removedOrder) throws SQLException {
+        for (ShopItem removedShopItem : removedOrder.getOrderItems()) {
+            shopItemDAO.incrementQuantityOfShopItem(removedShopItem);
+        }
     }
 
 
