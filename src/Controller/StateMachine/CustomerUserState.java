@@ -34,7 +34,6 @@ public class CustomerUserState implements ControllerState {
     public void performSearch() {
         String searchInput = view.getSearchField().getText();
         if (searchInput.isEmpty()) {
-//            searchService.searchAll2().forEach(System.out::println);
             model.setCurrentSearchResult(searchService.searchAll2());
         }
         else if (view.getRadioButtonItemSize().isSelected()) {
@@ -67,13 +66,8 @@ public class CustomerUserState implements ControllerState {
             performSearch();
             return;
         }
-
-        //TODO call SP with params
         model.setCurrentOrder(orderService.setupAndGetActiveOrderForUser(model.getUserLoggedIn()));
-        //TODO call orderService.setupActiveOrderForUser(model.getUserLoggedIn())
-        //TODO call perform search
         performSearch();
-//        model.addItemToOrder(rowIndex);
 
     }
 
@@ -110,11 +104,9 @@ public class CustomerUserState implements ControllerState {
         }
 
         orderService.completeActiveOrder(model.getCurrentOrder(), new ShippingAddress(Integer.parseInt(zipCode), street));
-
-        // TODO Add action in model
-        System.out.println("Order completed");
+        view.showGeneralInformationMessage("Order completed - Your order number is " + model.getCurrentOrder().getId());
         model.setCurrentOrder(orderService.setupAndGetActiveOrderForUser(model.getUserLoggedIn()));
-        System.out.println("New order set up");
+
     }
 
     private void validateShippingInput(String zipCode, String street) throws Exception {

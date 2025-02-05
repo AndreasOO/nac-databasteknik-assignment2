@@ -97,11 +97,7 @@ public class OrderDAOImpl implements OrderDAO {
             callableStatement.setInt(1, customerId);
             callableStatement.setInt(2, orderId);
             callableStatement.setInt(3, shopItemId);
-            try (ResultSet resultSet = callableStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    System.out.println(resultSet.getString(1));
-                }
-            }
+            callableStatement.executeQuery();
         }
     }
 

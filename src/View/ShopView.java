@@ -397,4 +397,8 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    public void showGeneralInformationMessage(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Information", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 }
