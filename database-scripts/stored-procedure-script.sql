@@ -88,6 +88,6 @@ SET AUTOCOMMIT = 1;
 
  UPDATE `shop_db`.`shop_items` SET `quantity`= 1 WHERE `shop_db`.`shop_items`.`id` = 1;
 
-call addToCart(4,null,1);
-SELECT * from order_items WHERE order_items.order_id = 28;
+-- call addToCart(4,null,1);
+-- SELECT * from order_items WHERE order_items.order_id = 28;
 -- SELECT shop_db.`orders`.`id` FROM shop_db.`orders` WHERE shop_db.`orders`.`customer_id`= 1 AND shop_db.orders.`order_active` = 1;
