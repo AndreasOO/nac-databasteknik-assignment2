@@ -39,7 +39,7 @@ public class SearchServiceImpl implements SearchService {
 
 
     @Override
-    public List<ShopItem> searchAll2() {
+    public List<ShopItem> searchAll() {
         Optional<List<ShopItemDTO>> shopItemDTOs = shopItemDAO.findAllDTO();
         if (shopItemDTOs.isEmpty()) {
             return new ArrayList<>();
@@ -50,7 +50,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<ShopItem> searchByName2(String name) {
+    public List<ShopItem> searchByName(String name) {
         Optional<List<ShopItemDTO>> shopItemDTOs = shopItemDAO.findByNameDTO(name);
         if (shopItemDTOs.isEmpty()) {
             return new ArrayList<>();
@@ -61,7 +61,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<ShopItem> searchBySize2(int size) {
+    public List<ShopItem> searchBySize(int size) {
         Optional<List<ShopItemDTO>> shopItemDTOs = shopItemDAO.findBySizeDTO(size);
         if (shopItemDTOs.isEmpty()) {
             return new ArrayList<>();

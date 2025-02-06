@@ -1,7 +1,6 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
-import Model.Entity.Order.Order;
 import Model.Entity.ShippingAddress.ShippingAddress;
 import Model.Entity.ShopItem.ShopItem;
 import Service.OrderService;
@@ -35,18 +34,18 @@ public class CustomerUserState implements ControllerState {
     public void performSearch() {
         String searchInput = view.getSearchField().getText();
         if (searchInput.isEmpty()) {
-            model.setCurrentSearchResult(searchService.searchAll2());
+            model.setCurrentSearchResult(searchService.searchAll());
         }
         else if (view.getRadioButtonItemSize().isSelected()) {
             try {
                 int size = Integer.parseInt(searchInput);
-                model.setCurrentSearchResult(searchService.searchBySize2(size));
+                model.setCurrentSearchResult(searchService.searchBySize(size));
             } catch (NumberFormatException e) {
                 model.setCurrentSearchResult(new ArrayList<>());
             }
         }
         else if (view.getRadioButtonItemName().isSelected()) {
-            model.setCurrentSearchResult(searchService.searchByName2(searchInput));
+            model.setCurrentSearchResult(searchService.searchByName(searchInput));
         }
     }
 
