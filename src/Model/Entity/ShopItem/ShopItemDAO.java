@@ -11,5 +11,4 @@ public interface ShopItemDAO {
     Optional<List<ShopItemDTO>> findBySizeDTO(int size);
     Optional<List<ShopItemDTO>> findByOrderIdAllDTO(int orderId);
     void incrementQuantityOfShopItem(ShopItem shopItem) throws SQLException;
-    //TODO ADD METHOD TO REPOPULATE QUANTITY
 }

@@ -8,7 +8,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR 1062
 		BEGIN 
             ROLLBACK;
-            resignal set message_text = 'A completed order with that id aldready exists';
+            RESIGNAL SET MESSAGE_TEXT = 'A completed order with that id aldready exists';
         END;
         
     DECLARE EXIT HANDLER FOR 1264
@@ -84,34 +84,34 @@ SET AUTOCOMMIT = 1;
 
 -- DEMO START -- 
 -- Show that no active order exists for customer with id = 1
-SELECT shop_db.`orders`.`id` FROM shop_db.`orders` WHERE shop_db.`orders`.`customer_id`= 1 AND shop_db.orders.`order_active` = 1; 
+SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1; 
 
 -- Show that shop item with id 1 has quantity = 2
-SELECT shop_items.quantity FROM shop_db.`shop_items` WHERE shop_db.`shop_items`.`id` = 1;
+SELECT `shop_items`.`quantity` FROM `shop_db`.`shop_items` WHERE `shop_db`.`shop_items`.`id` = 1;
 
 -- Show that out of stock table is empty
-SELECT * FROM shop_db.out_of_stock; 
+SELECT * FROM `shop_db`.`out_of_stock`; 
 
 -- Add shop item with id 1 to customer with id 1, order id is null and no active order -> scenario 1 (first if clause)
 call addToCart(1,null,1);
 
 -- Show that out of stock table is still empty
-SELECT * FROM shop_db.out_of_stock; 
+SELECT * FROM `shop_db`.`out_of_stock`; 
 
 -- Show that active order now exists for customer with id = 1
-SELECT shop_db.`orders`.`id` FROM shop_db.`orders` WHERE shop_db.`orders`.`customer_id`= 1 AND shop_db.orders.`order_active` = 1; 
+SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1; 
 
 -- Show that item with id 1 has been added to active order
-SELECT * from order_items WHERE order_items.order_id = (SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1);
+SELECT * FROM `shop_db`.`order_items` WHERE `shop_db`.`order_items`.`order_id` = (SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1);
 
 -- Add shop item with id 1 to customer with id 1, order id is null and active order exists -> scenario 3 (third if clause)
 call addToCart(1,null,1);
 
 -- Show that another item with id 1 has been added to active order
-SELECT * from order_items WHERE order_items.order_id = (SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1);
+SELECT * FROM `shop_db`.`order_items` WHERE `shop_db`.`order_items`.`order_id` = (SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1);
 
 -- Show that out of stock table now has shop item id = 1 added 
-SELECT * FROM shop_db.out_of_stock;
+SELECT * FROM `shop_db`.`out_of_stock`;
 
 -- Show that trying to add out of stock shop item will generate error with resignal message
 call addToCart(1,null,1);
@@ -120,16 +120,16 @@ call addToCart(1,null,1);
 call addToCart(1,(SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1),2);
 
 -- Show that another item with id 2 has been added to active order
-SELECT * from order_items WHERE order_items.order_id = (SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1);
+SELECT * FROM `shop_db`.`order_items` WHERE `shop_db`.`order_items`.`order_id` = (SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 1 AND `shop_db`.`orders`.`order_active` = 1);
 
 -- Show that no active order exists for customer with id = 2
-SELECT shop_db.`orders`.`id` FROM shop_db.`orders` WHERE shop_db.`orders`.`customer_id`= 2 AND shop_db.orders.`order_active` = 1; 
+SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 2 AND `shop_db`.`orders`.`order_active` = 1; 
 
 -- Add shop item with id 1 to customer with id 2, order id is 500 and no active order -> scenario 4 (fourth if clause)
 call addToCart(2,500,2);
 
 -- Show that active order now exists for customer with id = 2
-SELECT shop_db.`orders`.`id` FROM shop_db.`orders` WHERE shop_db.`orders`.`customer_id`= 2 AND shop_db.orders.`order_active` = 1; 
+SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 2 AND `shop_db`.`orders`.`order_active` = 1; 
 
 -- Show that item with id 1 has been added to active order
-SELECT * from order_items WHERE order_items.order_id = (SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 2 AND `shop_db`.`orders`.`order_active` = 1);
+SELECT * FROM `shop_db`.`order_items` WHERE `shop_db`.`order_items`.`order_id` = (SELECT `shop_db`.`orders`.`id` FROM `shop_db`.`orders` WHERE `shop_db`.`orders`.`customer_id`= 2 AND `shop_db`.`orders`.`order_active` = 1);
