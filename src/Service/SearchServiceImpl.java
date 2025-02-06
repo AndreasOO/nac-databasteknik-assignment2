@@ -72,12 +72,12 @@ public class SearchServiceImpl implements SearchService {
     }
 
     private List<ShopItem> createShopItemListFromDTOs(List<ShopItemDTO> shopItemDTOs) {
-        return shopItemDTOs.stream()
-                .map(shopItemDTO -> new ShopItem(
-                        shopItemDTO.getId(),
-                        createProductFromId(shopItemDTO.getProductId()),
-                        specificationDAO.findSpecificationByID(shopItemDTO.getSpecificationId()).orElseThrow(),
-                        shopItemDTO.getQuantity()
+        return shopItemDTOs
+                .stream()
+                .map(shopItemDTO -> new ShopItem(shopItemDTO.getId(),
+                                                             createProductFromId(shopItemDTO.getProductId()),
+                                                             specificationDAO.findSpecificationByID(shopItemDTO.getSpecificationId()).orElseThrow(),
+                                                             shopItemDTO.getQuantity()
                 ))
                 .toList();
     }

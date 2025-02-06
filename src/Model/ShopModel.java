@@ -47,16 +47,6 @@ public class ShopModel {
     public ShopItem getSelectedShopItemByRowIndex(int rowIndex) {
         return filteredSearchResult.get(rowIndex);
     }
-    //TODO redo with stored procedure
-    public void addItemToOrder(int rowIndex) {
-        currentOrder.getOrderItems().add(filteredSearchResult.get(rowIndex));
-        notifyOrderObservers();
-    }
-
-    public void clearOrder() {
-        currentOrder.getOrderItems().clear();
-        notifyOrderObservers();
-    }
 
     public void setCurrentSearchResult(List<ShopItem> searchResult) {
         currentSearchResult = searchResult;
@@ -72,7 +62,10 @@ public class ShopModel {
         } else {
 
             filteredSearchResult = currentSearchResult.stream().filter(shopItem -> shopItem.getProduct()
-                    .getCategories().stream().anyMatch(cat -> cat.getName().equalsIgnoreCase(filter))).collect(Collectors.toList());
+                                                                                                    .getCategories()
+                                                                                                    .stream()
+                                                                                                    .anyMatch(cat -> cat.getName().equalsIgnoreCase(filter)))
+                                                               .collect(Collectors.toList());
         }
         notifyFilterResultObservers();
     }

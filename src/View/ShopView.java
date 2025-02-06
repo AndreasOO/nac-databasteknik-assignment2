@@ -316,10 +316,7 @@ public class ShopView implements OrderObserver, SearchResultObserver, FilterResu
         usernameTextField.setText("");
         passwordField.setText("");
     }
-
-    public void resetUserLoggedIn() {
-        usernameTextField.setText("");
-    }
+    
 
     public void resetOrderSummary() {
         orderSummaryShippingAddressTextField.setText("");

@@ -115,7 +115,9 @@ public class OrderServiceImpl implements OrderService {
         if (shopItemListOptional.isEmpty()) {
             return new ArrayList<>();
         } else {
-            return shopItemListOptional.get().stream()
+            return shopItemListOptional
+                    .get()
+                    .stream()
                     .map(shopItemDTO -> new ShopItem(
                                                                 shopItemDTO.getId(),
                                                                 createProductFromId(shopItemDTO.getProductId()),
