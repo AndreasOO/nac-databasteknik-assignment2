@@ -1,8 +1,8 @@
 package Service;
 
-import Model.Entity.User.User;
-import Model.Entity.User.UserDAO;
-import Model.Entity.User.UserDAOImpl;
+import Entity.User.User;
+import Entity.User.UserDAO;
+import Entity.User.UserDAOImpl;
 
 public class UserServiceImpl implements UserService {
     UserDAO userDAO;

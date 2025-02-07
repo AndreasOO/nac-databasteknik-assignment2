@@ -1,9 +1,9 @@
 package Service;
 
-import Model.Entity.Order.Order;
-import Model.Entity.ShippingAddress.ShippingAddress;
-import Model.Entity.ShopItem.ShopItem;
-import Model.Entity.User.User;
+import Entity.Order.Order;
+import Entity.ShippingAddress.ShippingAddress;
+import Entity.ShopItem.ShopItem;
+import Entity.User.User;
 
 import java.sql.SQLException;
 

@@ -1,18 +1,21 @@
 package Service;
 
-import Model.Entity.Brand.BrandDAO;
-import Model.Entity.Brand.BrandDAOImpl;
-import Model.Entity.Category.CategoryDAO;
-import Model.Entity.Category.CategoryDAOImpl;
-import Model.Entity.Product.Product;
-import Model.Entity.Product.ProductDAO;
-import Model.Entity.Product.ProductDAOImpl;
-import Model.Entity.Product.ProductDTO;
-import Model.Entity.ProductType.ProductTypeDAO;
-import Model.Entity.ProductType.ProductTypeDAOImpl;
-import Model.Entity.ShopItem.*;
-import Model.Entity.Specification.SpecificationDAO;
-import Model.Entity.Specification.SpecificationDAOImpl;
+import Entity.Brand.BrandDAO;
+import Entity.Brand.BrandDAOImpl;
+import Entity.Category.CategoryDAO;
+import Entity.Category.CategoryDAOImpl;
+import Entity.Product.Product;
+import Entity.Product.ProductDAO;
+import Entity.Product.ProductDAOImpl;
+import Entity.Product.ProductDTO;
+import Entity.ProductType.ProductTypeDAO;
+import Entity.ProductType.ProductTypeDAOImpl;
+import Entity.ShopItem.ShopItem;
+import Entity.ShopItem.ShopItemDAO;
+import Entity.ShopItem.ShopItemDAOImpl;
+import Entity.ShopItem.ShopItemDTO;
+import Entity.Specification.SpecificationDAO;
+import Entity.Specification.SpecificationDAOImpl;
 
 import java.util.ArrayList;
 import java.util.List;

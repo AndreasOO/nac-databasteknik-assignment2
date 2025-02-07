@@ -1,8 +1,8 @@
 package Controller.StateMachine;
 
 import Controller.ShopController;
-import Model.Entity.ShippingAddress.ShippingAddress;
-import Model.Entity.ShopItem.ShopItem;
+import Entity.ShippingAddress.ShippingAddress;
+import Entity.ShopItem.ShopItem;
 import Service.OrderService;
 import Service.OrderServiceImpl;
 import Service.SearchService;

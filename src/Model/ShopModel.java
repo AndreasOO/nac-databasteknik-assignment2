@@ -1,9 +1,9 @@
 package Model;
 
 
-import Model.Entity.ShopItem.*;
-import Model.Entity.Order.Order;
-import Model.Entity.User.User;
+import Entity.ShopItem.ShopItem;
+import Entity.Order.Order;
+import Entity.User.User;
 import View.OrderObserver;
 import View.FilterResultObserver;
 import View.SearchResultObserver;

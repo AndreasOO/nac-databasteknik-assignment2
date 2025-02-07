@@ -1,7 +1,7 @@
 package View;
 
-import Model.Entity.Category.Category;
-import Model.Entity.ShopItem.ShopItem;
+import Entity.Category.Category;
+import Entity.ShopItem.ShopItem;
 import Model.ShopModel;
 
 import javax.swing.*;
